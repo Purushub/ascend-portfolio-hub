@@ -6,6 +6,7 @@ export interface StudentProfile {
   profileId: string;
   lastUpdated: string;
   aboutMe: string;
+  profileImage?: string;
   archetype: {
     title: string;
     description: string;
@@ -30,6 +31,7 @@ export interface StudentProfile {
     skills: string;
     duration: string;
     images?: string[];
+    imageDescriptions?: string[];
   }>;
   caseStudies: Array<{
     title: string;

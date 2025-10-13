@@ -6,11 +6,15 @@ import { Badge } from "@/components/ui/badge";
 import { SkillCircle } from "@/components/SkillCircle";
 import { ProjectCard } from "@/components/ProjectCard";
 import { CareerCard } from "@/components/CareerCard";
-import { Download, User, GraduationCap, Calendar, Hash } from "lucide-react";
+import { Download, User, GraduationCap, Calendar, Hash, Share2, Copy, Check } from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Portfolio = () => {
   const location = useLocation();
   const studentData: StudentProfile = location.state?.studentData;
+  const [copied, setCopied] = useState(false);
+  const { toast } = useToast();
 
   if (!studentData) {
     return (
@@ -49,6 +53,30 @@ const Portfolio = () => {
     URL.revokeObjectURL(url);
   };
 
+  const sharePortfolio = async () => {
+    const shareUrl = window.location.href;
+    
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${studentData.fullName}'s Portfolio`,
+          text: `Check out ${studentData.fullName}'s digital portfolio!`,
+          url: shareUrl,
+        });
+      } catch (err) {
+        console.log('Share cancelled');
+      }
+    } else {
+      navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      toast({
+        title: "Link copied!",
+        description: "Portfolio link has been copied to clipboard.",
+      });
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
       {/* Header with Export Button */}
@@ -58,10 +86,16 @@ const Portfolio = () => {
             <h1 className="text-4xl font-bold mb-2">SkilliZee Pro</h1>
             <p className="text-lg opacity-90">Student Digital Portfolio</p>
           </div>
-          <Button onClick={exportAsHTML} variant="secondary" size="lg">
-            <Download className="mr-2 h-5 w-5" />
-            Export Portfolio
-          </Button>
+          <div className="flex gap-3">
+            <Button onClick={sharePortfolio} variant="secondary" size="lg">
+              {copied ? <Check className="mr-2 h-5 w-5" /> : <Share2 className="mr-2 h-5 w-5" />}
+              {copied ? "Copied!" : "Share Portfolio"}
+            </Button>
+            <Button onClick={exportAsHTML} variant="secondary" size="lg">
+              <Download className="mr-2 h-5 w-5" />
+              Export
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -72,6 +106,29 @@ const Portfolio = () => {
             <User className="h-8 w-8 text-primary" />
             Profile Snapshot
           </h2>
+
+          {/* Profile Picture with Legendary Background */}
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 rounded-full blur-xl opacity-75 animate-pulse"></div>
+              <div className="relative w-40 h-40 rounded-full border-4 border-primary overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
+                {studentData.profileImage ? (
+                  <img 
+                    src={studentData.profileImage} 
+                    alt={studentData.fullName}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-accent">
+                    <User className="h-20 w-20 text-primary-foreground" />
+                  </div>
+                )}
+              </div>
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-amber-500 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
+                ⭐ Legendary
+              </div>
+            </div>
+          </div>
           
           <div className="grid md:grid-cols-2 gap-6">
             <Card>
@@ -152,61 +209,69 @@ const Portfolio = () => {
         </section>
 
         {/* My Story So Far */}
-        <section className="space-y-6">
-          <h2 className="text-3xl font-bold text-foreground">My Story So Far</h2>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="bg-gradient-to-br from-primary/10 to-primary/5">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
-                    ✍️
-                  </div>
-                  Personal Bio
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground leading-relaxed">{studentData.personalBio}</p>
-              </CardContent>
-            </Card>
+        {(studentData.personalBio || studentData.coreStrengths?.length > 0 || studentData.passions?.length > 0) && (
+          <section className="space-y-6">
+            <h2 className="text-3xl font-bold text-foreground">My Story So Far</h2>
+            
+            <div className="grid md:grid-cols-3 gap-6">
+              {studentData.personalBio && (
+                <Card className="bg-gradient-to-br from-primary/10 to-primary/5">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
+                        ✍️
+                      </div>
+                      Personal Bio
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{studentData.personalBio}</p>
+                  </CardContent>
+                </Card>
+              )}
 
-            <Card className="bg-gradient-to-br from-accent/10 to-accent/5">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <div className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center">
-                    💪
-                  </div>
-                  Core Strengths
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {studentData.coreStrengths.map((strength, idx) => (
-                    <Badge key={idx} variant="outline">{strength}</Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+              {studentData.coreStrengths && studentData.coreStrengths.length > 0 && (
+                <Card className="bg-gradient-to-br from-accent/10 to-accent/5">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <div className="w-10 h-10 rounded-full bg-accent text-accent-foreground flex items-center justify-center">
+                        💪
+                      </div>
+                      Core Strengths
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2">
+                      {studentData.coreStrengths.map((strength, idx) => (
+                        <Badge key={idx} variant="outline">{strength}</Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
 
-            <Card className="bg-gradient-to-br from-success/10 to-success/5">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <div className="w-10 h-10 rounded-full bg-success text-success-foreground flex items-center justify-center">
-                    ❤️
-                  </div>
-                  Passions & Interests
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {studentData.passions.map((passion, idx) => (
-                    <Badge key={idx} variant="secondary">{passion}</Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </section>
+              {studentData.passions && studentData.passions.length > 0 && (
+                <Card className="bg-gradient-to-br from-success/10 to-success/5">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <div className="w-10 h-10 rounded-full bg-success text-success-foreground flex items-center justify-center">
+                        ❤️
+                      </div>
+                      Passions & Interests
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2">
+                      {studentData.passions.map((passion, idx) => (
+                        <Badge key={idx} variant="secondary">{passion}</Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* Skills Profile */}
         <section className="space-y-6">
@@ -273,7 +338,12 @@ const Portfolio = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {studentData.projects.map((project, idx) => (
-              <ProjectCard key={idx} {...project} image={project.images?.[0]} />
+              <ProjectCard 
+                key={idx} 
+                {...project} 
+                image={project.images?.[0]} 
+                imageDescription={project.imageDescriptions?.[0]}
+              />
             ))}
           </div>
         </section>

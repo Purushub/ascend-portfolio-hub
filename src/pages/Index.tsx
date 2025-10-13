@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, FileJson, Eye } from "lucide-react";
+import { Upload, FileJson, Eye, FileEdit } from "lucide-react";
 import { toast } from "sonner";
 import { StudentProfile } from "@/types/student";
 import { sampleStudentData } from "@/utils/sampleData";
@@ -83,7 +83,12 @@ const Index = () => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center mt-8">
             <Button onClick={() => document.getElementById('file-upload')?.click()} size="lg" variant="secondary">
-              Get Started
+              <Upload className="mr-2 h-5 w-5" />
+              Upload JSON
+            </Button>
+            <Button onClick={() => navigate('/upload-form')} size="lg" variant="secondary">
+              <FileEdit className="mr-2 h-5 w-5" />
+              Manual Entry
             </Button>
             <Button onClick={viewSamplePortfolio} size="lg" variant="outline" className="bg-white/10 hover:bg-white/20 border-white/30">
               <Eye className="mr-2 h-5 w-5" />
@@ -99,10 +104,10 @@ const Index = () => {
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
               <Upload className="h-6 w-6 text-primary" />
-              Upload Student Data
+              Create Your Portfolio
             </CardTitle>
             <CardDescription>
-              Upload a JSON file containing student information to generate a beautiful digital portfolio
+              Upload a JSON file or use manual entry to create a beautiful digital portfolio
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -134,10 +139,17 @@ const Index = () => {
                 
                 <div>
                   <h3 className="text-xl font-semibold mb-2">Drop your JSON file here</h3>
-                  <p className="text-muted-foreground mb-4">or click to browse</p>
-                  <Button onClick={() => document.getElementById('file-upload')?.click()}>
-                    Select File
-                  </Button>
+                  <p className="text-muted-foreground mb-4">or choose an option below</p>
+                  <div className="flex gap-3 justify-center flex-wrap">
+                    <Button onClick={() => document.getElementById('file-upload')?.click()} variant="default">
+                      <Upload className="mr-2 h-4 w-4" />
+                      Upload JSON
+                    </Button>
+                    <Button onClick={() => navigate('/upload-form')} variant="secondary">
+                      <FileEdit className="mr-2 h-4 w-4" />
+                      Manual Entry
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
