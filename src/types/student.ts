@@ -7,6 +7,7 @@ export interface StudentProfile {
   lastUpdated: string;
   aboutMe: string;
   profileImage?: string;
+  achievementLevel?: "Scholar" | "Valedictorian" | "Brilliant" | "Diligent" | "Exemplary" | "Focused" | "Motivated" | "Disciplined" | "Curious" | "Proactive";
   archetype: {
     title: string;
     description: string;

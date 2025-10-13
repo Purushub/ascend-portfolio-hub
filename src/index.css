@@ -48,6 +48,9 @@ All colors MUST be HSL.
     --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(250 60% 98%));
     --shadow-lg: 0 10px 40px -10px hsl(250 70% 60% / 0.2);
     --shadow-card: 0 4px 20px -2px hsl(250 30% 40% / 0.1);
+    --glass-bg: 0 0% 100% / 0.05;
+    --glass-border: 0 0% 100% / 0.1;
+    --neon-glow: 250 70% 60% / 0.5;
 
     --sidebar-background: 0 0% 98%;
 
@@ -102,6 +105,9 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --glass-bg: 0 0% 100% / 0.03;
+    --glass-border: 0 0% 100% / 0.08;
+    --neon-glow: 250 70% 60% / 0.6;
   }
 }
 

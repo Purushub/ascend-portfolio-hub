@@ -107,11 +107,11 @@ const Portfolio = () => {
             Profile Snapshot
           </h2>
 
-          {/* Profile Picture with Legendary Background */}
+          {/* Profile Picture with Achievement Badge */}
           <div className="flex justify-center mb-6">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 rounded-full blur-xl opacity-75 animate-pulse"></div>
-              <div className="relative w-40 h-40 rounded-full border-4 border-primary overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary via-purple-500 to-pink-500 rounded-full blur-xl opacity-75 animate-pulse"></div>
+              <div className="relative w-40 h-40 rounded-full border-4 border-primary overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 shadow-2xl">
                 {studentData.profileImage ? (
                   <img 
                     src={studentData.profileImage} 
@@ -124,9 +124,11 @@ const Portfolio = () => {
                   </div>
                 )}
               </div>
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-amber-500 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
-                ⭐ Legendary
-              </div>
+              {studentData.achievementLevel && (
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary to-purple-600 text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg border border-white/20">
+                  ⭐ {studentData.achievementLevel}
+                </div>
+              )}
             </div>
           </div>
           
