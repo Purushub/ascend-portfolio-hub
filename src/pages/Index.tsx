@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, FileJson, Eye, FileEdit } from "lucide-react";
+import { Upload, FileSpreadsheet, Eye, FileEdit } from "lucide-react";
 import { toast } from "sonner";
 import { StudentProfile } from "@/types/student";
 import { sampleStudentData } from "@/utils/sampleData";
@@ -38,18 +38,18 @@ const Index = () => {
   };
 
   const handleFile = (file: File) => {
-    if (file.type !== "application/json") {
-      toast.error("Please upload a JSON file");
+    if (!file.name.endsWith('.csv')) {
+      toast.error("Please upload a CSV file");
       return;
     }
 
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const json = JSON.parse(e.target?.result as string);
-        validateAndNavigate(json);
+        // For now, just show a message that CSV parsing will be implemented
+        toast.error("CSV parsing coming soon! Please use Manual Entry for now.");
       } catch (error) {
-        toast.error("Invalid JSON file");
+        toast.error("Invalid CSV file");
       }
     };
     reader.readAsText(file);
@@ -84,7 +84,7 @@ const Index = () => {
           <div className="flex flex-wrap gap-4 justify-center mt-8">
             <Button onClick={() => document.getElementById('file-upload')?.click()} size="lg" variant="secondary">
               <Upload className="mr-2 h-5 w-5" />
-              Upload JSON
+              Upload CSV
             </Button>
             <Button onClick={() => navigate('/upload-form')} size="lg" variant="secondary">
               <FileEdit className="mr-2 h-5 w-5" />
@@ -107,7 +107,7 @@ const Index = () => {
               Create Your Portfolio
             </CardTitle>
             <CardDescription>
-              Upload a JSON file or use manual entry to create a beautiful digital portfolio
+              Upload a CSV file or use manual entry to create a beautiful digital portfolio
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -125,7 +125,7 @@ const Index = () => {
               <input
                 id="file-upload"
                 type="file"
-                accept=".json"
+                accept=".csv"
                 onChange={handleFileInput}
                 className="hidden"
               />
@@ -133,17 +133,17 @@ const Index = () => {
               <div className="space-y-4">
                 <div className="flex justify-center">
                   <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center">
-                    <FileJson className="h-10 w-10 text-primary" />
+                    <FileSpreadsheet className="h-10 w-10 text-primary" />
                   </div>
                 </div>
                 
                 <div>
-                  <h3 className="text-xl font-semibold mb-2">Drop your JSON file here</h3>
+                  <h3 className="text-xl font-semibold mb-2">Drop your CSV file here</h3>
                   <p className="text-muted-foreground mb-4">or choose an option below</p>
                   <div className="flex gap-3 justify-center flex-wrap">
                     <Button onClick={() => document.getElementById('file-upload')?.click()} variant="default">
                       <Upload className="mr-2 h-4 w-4" />
-                      Upload JSON
+                      Upload CSV
                     </Button>
                     <Button onClick={() => navigate('/upload-form')} variant="secondary">
                       <FileEdit className="mr-2 h-4 w-4" />
@@ -155,18 +155,13 @@ const Index = () => {
             </div>
 
             <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-              <h4 className="font-semibold mb-2 text-sm">Expected JSON Format:</h4>
+              <h4 className="font-semibold mb-2 text-sm">Expected CSV Format:</h4>
               <pre className="text-xs bg-background/50 p-3 rounded overflow-x-auto">
-{`{
-  "fullName": "Student Name",
-  "schoolName": "School Name",
-  "grade": "11th Grade",
-  "year": "2024-2025",
-  ...
-}`}
+{`fullName,schoolName,grade,year,...
+Student Name,School Name,11th Grade,2024-2025,...`}
               </pre>
               <p className="text-xs text-muted-foreground mt-2">
-                For a complete example, click "View Examples" to see a sample portfolio
+                For a complete example, click "View Examples" to see a sample portfolio. For now, please use Manual Entry.
               </p>
             </div>
           </CardContent>

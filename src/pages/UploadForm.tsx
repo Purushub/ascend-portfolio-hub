@@ -6,8 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { StudentProfile } from "@/types/student";
-import { Upload, UserPlus } from "lucide-react";
+import { Upload, UserPlus, X, Plus, Image as ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export const UploadForm = () => {
   const navigate = useNavigate();
@@ -39,6 +40,41 @@ export const UploadForm = () => {
 
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [profileImagePreview, setProfileImagePreview] = useState<string>("");
+  
+  // Projects state
+  const [projects, setProjects] = useState<Array<{
+    title: string;
+    description: string;
+    skills: string;
+    duration: string;
+    images: string[];
+    imageDescriptions: string[];
+  }>>([]);
+
+  // Case studies state
+  const [caseStudies, setCaseStudies] = useState<Array<{
+    title: string;
+    description: string;
+    skills: string;
+    duration: string;
+    steps: Array<{
+      title: string;
+      description: string;
+      image: string;
+    }>;
+  }>>([]);
+
+  // Extracurricular state
+  const [extracurricular, setExtracurricular] = useState<Array<{
+    title: string;
+    description: string;
+    skills: string;
+    duration: string;
+    images: Array<{
+      caption: string;
+      description: string;
+    }>;
+  }>>([]);
 
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -50,6 +86,19 @@ export const UploadForm = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>): Promise<string> => {
+    return new Promise((resolve) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          resolve(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -69,6 +118,9 @@ export const UploadForm = () => {
       profileId: `STU-${Date.now()}`,
       lastUpdated: new Date().toLocaleDateString(),
       profileImage: profileImagePreview || undefined,
+      projects,
+      caseStudies,
+      extracurricular,
     } as StudentProfile;
 
     navigate("/portfolio", { state: { studentData } });
@@ -199,6 +251,31 @@ export const UploadForm = () => {
                 />
               </div>
 
+              {/* Achievement Level */}
+              <div className="space-y-2">
+                <Label htmlFor="achievementLevel">Achievement Level</Label>
+                <Select
+                  value={formData.achievementLevel}
+                  onValueChange={(value: any) => setFormData({ ...formData, achievementLevel: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select achievement level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Scholar">Scholar</SelectItem>
+                    <SelectItem value="Valedictorian">Valedictorian</SelectItem>
+                    <SelectItem value="Brilliant">Brilliant</SelectItem>
+                    <SelectItem value="Diligent">Diligent</SelectItem>
+                    <SelectItem value="Exemplary">Exemplary</SelectItem>
+                    <SelectItem value="Focused">Focused</SelectItem>
+                    <SelectItem value="Motivated">Motivated</SelectItem>
+                    <SelectItem value="Disciplined">Disciplined</SelectItem>
+                    <SelectItem value="Curious">Curious</SelectItem>
+                    <SelectItem value="Proactive">Proactive</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
               {/* Archetype */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Your Archetype</h3>
@@ -238,6 +315,472 @@ export const UploadForm = () => {
                     placeholder="Your archetype quote..."
                   />
                 </div>
+              </div>
+
+              {/* Social Energy Style */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">Social Energy Style</h3>
+                <div className="space-y-2">
+                  <Label htmlFor="socialEnergyType">Type</Label>
+                  <Input
+                    id="socialEnergyType"
+                    value={formData.socialEnergyStyle?.type}
+                    onChange={(e) => setFormData({ 
+                      ...formData, 
+                      socialEnergyStyle: { ...formData.socialEnergyStyle!, type: e.target.value }
+                    })}
+                    placeholder="e.g., Introvert, Extrovert, Ambivert"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="socialEnergyDescription">Description</Label>
+                  <Textarea
+                    id="socialEnergyDescription"
+                    value={formData.socialEnergyStyle?.description}
+                    onChange={(e) => setFormData({ 
+                      ...formData, 
+                      socialEnergyStyle: { ...formData.socialEnergyStyle!, description: e.target.value }
+                    })}
+                    rows={3}
+                  />
+                </div>
+              </div>
+
+              {/* Projects Section */}
+              <div className="space-y-4 border-t pt-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">Projects</h3>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setProjects([...projects, { title: "", description: "", skills: "", duration: "", images: [], imageDescriptions: [] }])}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Project
+                  </Button>
+                </div>
+                {projects.map((project, index) => (
+                  <Card key={index} className="p-4">
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-start">
+                        <h4 className="font-medium">Project {index + 1}</h4>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setProjects(projects.filter((_, i) => i !== index))}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Title</Label>
+                        <Input
+                          value={project.title}
+                          onChange={(e) => {
+                            const newProjects = [...projects];
+                            newProjects[index].title = e.target.value;
+                            setProjects(newProjects);
+                          }}
+                          placeholder="Project title"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Description</Label>
+                        <Textarea
+                          value={project.description}
+                          onChange={(e) => {
+                            const newProjects = [...projects];
+                            newProjects[index].description = e.target.value;
+                            setProjects(newProjects);
+                          }}
+                          placeholder="Project description"
+                          rows={3}
+                        />
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>Skills</Label>
+                          <Input
+                            value={project.skills}
+                            onChange={(e) => {
+                              const newProjects = [...projects];
+                              newProjects[index].skills = e.target.value;
+                              setProjects(newProjects);
+                            }}
+                            placeholder="e.g., React, Python"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Duration</Label>
+                          <Input
+                            value={project.duration}
+                            onChange={(e) => {
+                              const newProjects = [...projects];
+                              newProjects[index].duration = e.target.value;
+                              setProjects(newProjects);
+                            }}
+                            placeholder="e.g., 3 months"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Upload Project Images</Label>
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={async (e) => {
+                            const files = Array.from(e.target.files || []);
+                            const images = await Promise.all(
+                              files.map(file => {
+                                return new Promise<string>((resolve) => {
+                                  const reader = new FileReader();
+                                  reader.onloadend = () => resolve(reader.result as string);
+                                  reader.readAsDataURL(file);
+                                });
+                              })
+                            );
+                            const newProjects = [...projects];
+                            newProjects[index].images = [...newProjects[index].images, ...images];
+                            setProjects(newProjects);
+                          }}
+                        />
+                        {project.images.length > 0 && (
+                          <div className="flex gap-2 flex-wrap mt-2">
+                            {project.images.map((img, imgIndex) => (
+                              <div key={imgIndex} className="relative w-20 h-20">
+                                <img src={img} alt={`Project ${index + 1} - ${imgIndex + 1}`} className="w-full h-full object-cover rounded" />
+                                <Button
+                                  type="button"
+                                  variant="destructive"
+                                  size="sm"
+                                  className="absolute -top-2 -right-2 h-6 w-6 p-0"
+                                  onClick={() => {
+                                    const newProjects = [...projects];
+                                    newProjects[index].images = newProjects[index].images.filter((_, i) => i !== imgIndex);
+                                    setProjects(newProjects);
+                                  }}
+                                >
+                                  <X className="h-3 w-3" />
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Image Descriptions (comma separated)</Label>
+                        <Input
+                          value={project.imageDescriptions.join(", ")}
+                          onChange={(e) => {
+                            const newProjects = [...projects];
+                            newProjects[index].imageDescriptions = e.target.value.split(",").map(s => s.trim()).filter(s => s);
+                            setProjects(newProjects);
+                          }}
+                          placeholder="Description for each image"
+                        />
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Case Studies Section */}
+              <div className="space-y-4 border-t pt-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">Case Studies</h3>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCaseStudies([...caseStudies, { title: "", description: "", skills: "", duration: "", steps: [] }])}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Case Study
+                  </Button>
+                </div>
+                {caseStudies.map((caseStudy, index) => (
+                  <Card key={index} className="p-4">
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-start">
+                        <h4 className="font-medium">Case Study {index + 1}</h4>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setCaseStudies(caseStudies.filter((_, i) => i !== index))}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Title</Label>
+                        <Input
+                          value={caseStudy.title}
+                          onChange={(e) => {
+                            const newCaseStudies = [...caseStudies];
+                            newCaseStudies[index].title = e.target.value;
+                            setCaseStudies(newCaseStudies);
+                          }}
+                          placeholder="Case study title"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Description</Label>
+                        <Textarea
+                          value={caseStudy.description}
+                          onChange={(e) => {
+                            const newCaseStudies = [...caseStudies];
+                            newCaseStudies[index].description = e.target.value;
+                            setCaseStudies(newCaseStudies);
+                          }}
+                          rows={3}
+                        />
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>Skills</Label>
+                          <Input
+                            value={caseStudy.skills}
+                            onChange={(e) => {
+                              const newCaseStudies = [...caseStudies];
+                              newCaseStudies[index].skills = e.target.value;
+                              setCaseStudies(newCaseStudies);
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Duration</Label>
+                          <Input
+                            value={caseStudy.duration}
+                            onChange={(e) => {
+                              const newCaseStudies = [...caseStudies];
+                              newCaseStudies[index].duration = e.target.value;
+                              setCaseStudies(newCaseStudies);
+                            }}
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Case Study Steps */}
+                      <div className="space-y-2 border-l-2 border-primary/20 pl-4">
+                        <div className="flex items-center justify-between">
+                          <Label>Steps</Label>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              const newCaseStudies = [...caseStudies];
+                              newCaseStudies[index].steps.push({ title: "", description: "", image: "" });
+                              setCaseStudies(newCaseStudies);
+                            }}
+                          >
+                            <Plus className="h-4 w-4 mr-1" />
+                            Add Step
+                          </Button>
+                        </div>
+                        {caseStudy.steps.map((step, stepIndex) => (
+                          <Card key={stepIndex} className="p-3">
+                            <div className="space-y-2">
+                              <div className="flex justify-between items-start">
+                                <Label className="text-sm">Step {stepIndex + 1}</Label>
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => {
+                                    const newCaseStudies = [...caseStudies];
+                                    newCaseStudies[index].steps = newCaseStudies[index].steps.filter((_, i) => i !== stepIndex);
+                                    setCaseStudies(newCaseStudies);
+                                  }}
+                                >
+                                  <X className="h-3 w-3" />
+                                </Button>
+                              </div>
+                              <Input
+                                placeholder="Step title"
+                                value={step.title}
+                                onChange={(e) => {
+                                  const newCaseStudies = [...caseStudies];
+                                  newCaseStudies[index].steps[stepIndex].title = e.target.value;
+                                  setCaseStudies(newCaseStudies);
+                                }}
+                              />
+                              <Textarea
+                                placeholder="Step description"
+                                value={step.description}
+                                onChange={(e) => {
+                                  const newCaseStudies = [...caseStudies];
+                                  newCaseStudies[index].steps[stepIndex].description = e.target.value;
+                                  setCaseStudies(newCaseStudies);
+                                }}
+                                rows={2}
+                              />
+                              <div className="space-y-2">
+                                <Label className="text-sm">Step Image</Label>
+                                <Input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={async (e) => {
+                                    const image = await handleImageUpload(e);
+                                    const newCaseStudies = [...caseStudies];
+                                    newCaseStudies[index].steps[stepIndex].image = image;
+                                    setCaseStudies(newCaseStudies);
+                                  }}
+                                />
+                                {step.image && (
+                                  <img src={step.image} alt={`Step ${stepIndex + 1}`} className="w-20 h-20 object-cover rounded" />
+                                )}
+                              </div>
+                            </div>
+                          </Card>
+                        ))}
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Extracurricular Section */}
+              <div className="space-y-4 border-t pt-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">Extracurricular Activities</h3>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setExtracurricular([...extracurricular, { title: "", description: "", skills: "", duration: "", images: [] }])}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Activity
+                  </Button>
+                </div>
+                {extracurricular.map((activity, index) => (
+                  <Card key={index} className="p-4">
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-start">
+                        <h4 className="font-medium">Activity {index + 1}</h4>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setExtracurricular(extracurricular.filter((_, i) => i !== index))}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Title</Label>
+                        <Input
+                          value={activity.title}
+                          onChange={(e) => {
+                            const newActivities = [...extracurricular];
+                            newActivities[index].title = e.target.value;
+                            setExtracurricular(newActivities);
+                          }}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Description</Label>
+                        <Textarea
+                          value={activity.description}
+                          onChange={(e) => {
+                            const newActivities = [...extracurricular];
+                            newActivities[index].description = e.target.value;
+                            setExtracurricular(newActivities);
+                          }}
+                          rows={3}
+                        />
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>Skills</Label>
+                          <Input
+                            value={activity.skills}
+                            onChange={(e) => {
+                              const newActivities = [...extracurricular];
+                              newActivities[index].skills = e.target.value;
+                              setExtracurricular(newActivities);
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Duration</Label>
+                          <Input
+                            value={activity.duration}
+                            onChange={(e) => {
+                              const newActivities = [...extracurricular];
+                              newActivities[index].duration = e.target.value;
+                              setExtracurricular(newActivities);
+                            }}
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Activity Images with captions */}
+                      <div className="space-y-2 border-l-2 border-accent/20 pl-4">
+                        <div className="flex items-center justify-between">
+                          <Label>Images</Label>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              const newActivities = [...extracurricular];
+                              newActivities[index].images.push({ caption: "", description: "" });
+                              setExtracurricular(newActivities);
+                            }}
+                          >
+                            <Plus className="h-4 w-4 mr-1" />
+                            Add Image
+                          </Button>
+                        </div>
+                        {activity.images.map((img, imgIndex) => (
+                          <Card key={imgIndex} className="p-3">
+                            <div className="space-y-2">
+                              <div className="flex justify-between items-start">
+                                <Label className="text-sm">Image {imgIndex + 1}</Label>
+                                <Button
+                                  type="button"
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => {
+                                    const newActivities = [...extracurricular];
+                                    newActivities[index].images = newActivities[index].images.filter((_, i) => i !== imgIndex);
+                                    setExtracurricular(newActivities);
+                                  }}
+                                >
+                                  <X className="h-3 w-3" />
+                                </Button>
+                              </div>
+                              <Input
+                                placeholder="Caption"
+                                value={img.caption}
+                                onChange={(e) => {
+                                  const newActivities = [...extracurricular];
+                                  newActivities[index].images[imgIndex].caption = e.target.value;
+                                  setExtracurricular(newActivities);
+                                }}
+                              />
+                              <Input
+                                placeholder="Description"
+                                value={img.description}
+                                onChange={(e) => {
+                                  const newActivities = [...extracurricular];
+                                  newActivities[index].images[imgIndex].description = e.target.value;
+                                  setExtracurricular(newActivities);
+                                }}
+                              />
+                            </div>
+                          </Card>
+                        ))}
+                      </div>
+                    </div>
+                  </Card>
+                ))}
               </div>
 
               <div className="flex gap-4 pt-6">
