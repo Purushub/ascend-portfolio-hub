@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, FileSpreadsheet, Eye, FileEdit } from "lucide-react";
+import { Upload, FileSpreadsheet, Eye, FileEdit, Download, Users } from "lucide-react";
 import { toast } from "sonner";
 import { StudentProfile } from "@/types/student";
 import { sampleStudentData } from "@/utils/sampleData";
+import { downloadCSVTemplate, parseCSV } from "@/utils/csvUtils";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -46,8 +47,19 @@ const Index = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        // For now, just show a message that CSV parsing will be implemented
-        toast.error("CSV parsing coming soon! Please use Manual Entry for now.");
+        const text = e.target?.result as string;
+        const students = parseCSV(text);
+        
+        if (students.length === 0) {
+          toast.error("No valid student data found in CSV");
+          return;
+        }
+        
+        // Store in localStorage
+        localStorage.setItem("students", JSON.stringify(students));
+        
+        toast.success(`Successfully uploaded ${students.length} student(s)!`);
+        navigate("/students-board");
       } catch (error) {
         toast.error("Invalid CSV file");
       }
@@ -86,9 +98,17 @@ const Index = () => {
               <Upload className="mr-2 h-5 w-5" />
               Upload CSV
             </Button>
+            <Button onClick={downloadCSVTemplate} size="lg" variant="secondary">
+              <Download className="mr-2 h-5 w-5" />
+              Download Template
+            </Button>
             <Button onClick={() => navigate('/upload-form')} size="lg" variant="secondary">
               <FileEdit className="mr-2 h-5 w-5" />
               Manual Entry
+            </Button>
+            <Button onClick={() => navigate('/students-board')} size="lg" variant="secondary">
+              <Users className="mr-2 h-5 w-5" />
+              View All Students
             </Button>
             <Button onClick={viewSamplePortfolio} size="lg" variant="outline" className="bg-white/10 hover:bg-white/20 border-white/30">
               <Eye className="mr-2 h-5 w-5" />
@@ -144,6 +164,10 @@ const Index = () => {
                     <Button onClick={() => document.getElementById('file-upload')?.click()} variant="default">
                       <Upload className="mr-2 h-4 w-4" />
                       Upload CSV
+                    </Button>
+                    <Button onClick={downloadCSVTemplate} variant="outline">
+                      <Download className="mr-2 h-4 w-4" />
+                      Download Template
                     </Button>
                     <Button onClick={() => navigate('/upload-form')} variant="secondary">
                       <FileEdit className="mr-2 h-4 w-4" />
