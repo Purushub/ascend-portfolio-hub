@@ -120,31 +120,36 @@ export const sampleStudentData: StudentProfile = {
     {
       title: "Science Fair Robot",
       description: "Developed an autonomous robot for a science fair, capable of navigating a custom-built maze and identifying colored objects. This project involved both hardware construction and software programming.",
-      skills: "Robotics, Python Programming, Circuit Design, Problem-solving, Prototyping",
+      skills: "Problem-solving, Prototyping, Critical Thinking",
+      tools: "Robotics Kit, Python, Arduino",
       duration: "3 months"
     },
     {
       title: "Interactive Portfolio Website",
       description: "Designed and developed a personal portfolio website from scratch, featuring responsive design, dynamic content loading, and a custom animation sequence. Focused on user experience and visual appeal.",
-      skills: "Web Development (HTML, CSS, JavaScript), UI/UX Design, Front-end Frameworks, Git Version Control",
+      skills: "UI/UX Design, Creative Thinking, Problem Solving",
+      tools: "HTML, CSS, JavaScript, React, Git",
       duration: "2 months"
     },
     {
       title: "Community Garden Initiative",
       description: "Co-led a community initiative to establish and maintain a sustainable urban garden. Responsibilities included planning garden beds, organizing volunteer workdays, and securing local partnerships for resources.",
-      skills: "Project Management, Community Engagement, Environmental Science, Collaboration, Resource Allocation",
+      skills: "Project Management, Leadership, Collaboration",
+      tools: "Project Management Software, Community Platforms",
       duration: "6 months"
     },
     {
       title: "Productivity Mobile App",
       description: "Created a cross-platform mobile application designed to help students manage tasks and study schedules. The app features reminder notifications, progress tracking, and cloud data synchronization.",
-      skills: "Mobile App Development (React Native), API Integration, Database Management, User Testing, Agile Methodologies",
+      skills: "Problem Solving, Time Management, Critical Thinking",
+      tools: "React Native, Firebase, VS Code",
       duration: "4 months"
     },
     {
       title: "Digital Art Portfolio",
       description: "Created a comprehensive digital art collection using various software tools, showcasing different artistic styles and techniques.",
-      skills: "Digital Art, Adobe Creative Suite, Visual Design, Creative Thinking",
+      skills: "Creative Thinking, Visual Design, Adaptability",
+      tools: "Adobe Creative Suite, Procreate, Figma",
       duration: "5 months"
     }
   ],

@@ -6,15 +6,22 @@ import { Badge } from "@/components/ui/badge";
 import { SkillCircle } from "@/components/SkillCircle";
 import { ProjectCard } from "@/components/ProjectCard";
 import { CareerCard } from "@/components/CareerCard";
-import { Download, User, GraduationCap, Calendar, Hash, Share2, Copy, Check } from "lucide-react";
+import { Download, User, GraduationCap, Calendar, Hash, Share2, Copy, Check, Edit } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { RatingComment } from "@/components/RatingComment";
+import { useNavigate } from "react-router-dom";
 
 const Portfolio = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const studentData: StudentProfile = location.state?.studentData;
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
+
+  const handleUpdate = () => {
+    navigate("/upload-form", { state: { studentData } });
+  };
 
   if (!studentData) {
     return (
@@ -87,9 +94,13 @@ const Portfolio = () => {
             <p className="text-lg opacity-90">Student Digital Portfolio</p>
           </div>
           <div className="flex gap-3">
+            <Button onClick={handleUpdate} variant="secondary" size="lg">
+              <Edit className="mr-2 h-5 w-5" />
+              Update Portfolio
+            </Button>
             <Button onClick={sharePortfolio} variant="secondary" size="lg">
               {copied ? <Check className="mr-2 h-5 w-5" /> : <Share2 className="mr-2 h-5 w-5" />}
-              {copied ? "Copied!" : "Share Portfolio"}
+              {copied ? "Copied!" : "Share"}
             </Button>
             <Button onClick={exportAsHTML} variant="secondary" size="lg">
               <Download className="mr-2 h-5 w-5" />
@@ -342,7 +353,13 @@ const Portfolio = () => {
             {studentData.projects.map((project, idx) => (
               <ProjectCard 
                 key={idx} 
-                {...project} 
+                title={project.title}
+                description={project.description}
+                skills={project.skills}
+                tools={project.tools}
+                duration={project.duration}
+                link={project.link}
+                achievement={project.achievement}
                 image={project.images?.[0]} 
                 imageDescription={project.imageDescriptions?.[0]}
               />
@@ -391,6 +408,51 @@ const Portfolio = () => {
           </section>
         )}
 
+        {/* Beyond the Classroom */}
+        {studentData.extracurricular && studentData.extracurricular.length > 0 && (
+          <section className="space-y-6">
+            <h2 className="text-3xl font-bold text-foreground">Beyond the Classroom</h2>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              {studentData.extracurricular.map((activity, idx) => (
+                <Card key={idx} className="overflow-hidden">
+                  <CardHeader className="bg-gradient-to-r from-accent/10 to-primary/10">
+                    <CardTitle className="text-xl">{activity.title}</CardTitle>
+                    <p className="text-muted-foreground">{activity.description}</p>
+                  </CardHeader>
+                  <CardContent className="pt-6">
+                    {activity.images && activity.images.length > 0 && (
+                      <div className="grid grid-cols-2 gap-4 mb-4">
+                        {activity.images.map((img, imgIdx) => (
+                          <div key={imgIdx} className="space-y-2">
+                            <div className="aspect-video bg-secondary rounded-lg overflow-hidden">
+                              {/* Placeholder for image */}
+                            </div>
+                            <div className="text-xs">
+                              <p className="font-semibold">{img.caption}</p>
+                              <p className="text-muted-foreground">{img.description}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <div className="space-y-2 border-t pt-4">
+                      <div>
+                        <span className="font-semibold text-primary">Skills: </span>
+                        <span className="text-muted-foreground">{activity.skills}</span>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-primary">Duration: </span>
+                        <span className="text-muted-foreground">{activity.duration}</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Career Paths */}
         <section className="space-y-6">
           <div>
@@ -406,53 +468,11 @@ const Portfolio = () => {
 
           <div className="flex justify-center gap-4 pt-4">
             <Button variant="default" size="lg">Explore Relevant Programs</Button>
-            <Button variant="outline" size="lg">Take a Career Assessment</Button>
           </div>
         </section>
 
-        {/* Share & Get Endorsed */}
-        <section className="bg-secondary/50 rounded-2xl p-8 space-y-6">
-          <div>
-            <h2 className="text-3xl font-bold text-foreground mb-2">Share & Get Endorsed</h2>
-            <p className="text-muted-foreground">
-              Once your digital portfolio is ready, share it widely to amplify its reach and gather valuable endorsements.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Amplify Your Reach</CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">
-                Expand your audience beyond academic committees to include family, friends, and a wider professional network.
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Boost Credibility</CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">
-                Gather authentic testimonials and reviews that validate your skills and achievements.
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Build Network</CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">
-                Connect with mentors, teachers, and professionals who can support your educational journey.
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="flex justify-center gap-4 pt-4">
-            <Button variant="default" size="lg">Share My Portfolio</Button>
-            <Button variant="outline" size="lg">Request an Endorsement</Button>
-          </div>
-        </section>
+        {/* Ratings & Comments */}
+        <RatingComment />
       </div>
 
       {/* Footer */}

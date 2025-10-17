@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,7 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 export const UploadForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+  const existingData: StudentProfile | undefined = location.state?.studentData;
   const [formData, setFormData] = useState<Partial<StudentProfile>>({
     fullName: "",
     schoolName: "",
@@ -41,14 +43,40 @@ export const UploadForm = () => {
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [profileImagePreview, setProfileImagePreview] = useState<string>("");
   
+  // Load existing data if available
+  useEffect(() => {
+    if (existingData) {
+      setFormData(existingData);
+      setProfileImagePreview(existingData.profileImage || "");
+      setProjects(existingData.projects.map(p => ({
+        ...p,
+        link: p.link || "",
+        achievement: p.achievement || "",
+        images: p.images || [],
+        imageDescriptions: p.imageDescriptions || []
+      })));
+      setCaseStudies(existingData.caseStudies.map(c => ({
+        ...c,
+        steps: c.steps.map(s => ({ ...s, image: s.image || "" }))
+      })));
+      setExtracurricular(existingData.extracurricular.map(e => ({
+        ...e,
+        images: e.images || []
+      })));
+    }
+  }, [existingData]);
+  
   // Projects state
   const [projects, setProjects] = useState<Array<{
     title: string;
     description: string;
     skills: string;
+    tools: string;
     duration: string;
-    images: string[];
-    imageDescriptions: string[];
+    link?: string;
+    achievement?: string;
+    images?: string[];
+    imageDescriptions?: string[];
   }>>([]);
 
   // Case studies state
@@ -60,7 +88,7 @@ export const UploadForm = () => {
     steps: Array<{
       title: string;
       description: string;
-      image: string;
+      image?: string;
     }>;
   }>>([]);
 
@@ -70,7 +98,7 @@ export const UploadForm = () => {
     description: string;
     skills: string;
     duration: string;
-    images: Array<{
+    images?: Array<{
       caption: string;
       description: string;
     }>;
@@ -354,7 +382,7 @@ export const UploadForm = () => {
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={() => setProjects([...projects, { title: "", description: "", skills: "", duration: "", images: [], imageDescriptions: [] }])}
+                    onClick={() => setProjects([...projects, { title: "", description: "", skills: "", tools: "", duration: "", link: "", achievement: "", images: [], imageDescriptions: [] }])}
                   >
                     <Plus className="h-4 w-4 mr-2" />
                     Add Project
@@ -409,9 +437,23 @@ export const UploadForm = () => {
                               newProjects[index].skills = e.target.value;
                               setProjects(newProjects);
                             }}
-                            placeholder="e.g., React, Python"
+                            placeholder="e.g., Confidence, Leadership, Communication"
                           />
                         </div>
+                        <div className="space-y-2">
+                          <Label>Tools</Label>
+                          <Input
+                            value={project.tools}
+                            onChange={(e) => {
+                              const newProjects = [...projects];
+                              newProjects[index].tools = e.target.value;
+                              setProjects(newProjects);
+                            }}
+                            placeholder="e.g., Figma, React, Python"
+                          />
+                        </div>
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label>Duration</Label>
                           <Input
@@ -424,6 +466,30 @@ export const UploadForm = () => {
                             placeholder="e.g., 3 months"
                           />
                         </div>
+                        <div className="space-y-2">
+                          <Label>Project Link</Label>
+                          <Input
+                            value={project.link}
+                            onChange={(e) => {
+                              const newProjects = [...projects];
+                              newProjects[index].link = e.target.value;
+                              setProjects(newProjects);
+                            }}
+                            placeholder="e.g., https://project-url.com"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Achievement/Award</Label>
+                        <Input
+                          value={project.achievement}
+                          onChange={(e) => {
+                            const newProjects = [...projects];
+                            newProjects[index].achievement = e.target.value;
+                            setProjects(newProjects);
+                          }}
+                          placeholder="e.g., Won the Govt challenge"
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label>Upload Project Images</Label>

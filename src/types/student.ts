@@ -30,7 +30,10 @@ export interface StudentProfile {
     title: string;
     description: string;
     skills: string;
+    tools: string;
     duration: string;
+    link?: string;
+    achievement?: string;
     images?: string[];
     imageDescriptions?: string[];
   }>;
