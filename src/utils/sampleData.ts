@@ -153,52 +153,7 @@ export const sampleStudentData: StudentProfile = {
       duration: "5 months"
     }
   ],
-  caseStudies: [
-    {
-      title: "Research & Analysis",
-      description: "Conducted an independent research project on local water quality, including data collection, analysis, and presentation to city council.",
-      skills: "Research Methods, Data Analysis, Scientific Writing, Public Speaking",
-      duration: "4 months",
-      steps: [
-        {
-          title: "Data Collection",
-          description: "A scientist collecting water samples from a clear stream in a natural environment, ensuring accurate data acquisition for the research study."
-        },
-        {
-          title: "Laboratory Analysis",
-          description: "Close-up view of water samples undergoing rigorous analysis under a microscope in a laboratory, revealing critical insights into water composition."
-        },
-        {
-          title: "Data Visualization",
-          description: "A clear and informative chart displaying water quality data and observed trends, making complex scientific information accessible and understandable."
-        },
-        {
-          title: "Public Presentation",
-          description: "A presentation slide showcasing the key findings on local water quality, prepared for an audience, such as a city council meeting, to communicate research outcomes."
-        }
-      ]
-    },
-    {
-      title: "Peer Tutoring Program",
-      description: "Developed and led a peer tutoring initiative for struggling math students, creating study materials and tracking progress.",
-      skills: "Teaching, Curriculum Development, Mentoring, Communication",
-      duration: "1 year",
-      steps: [
-        {
-          title: "One-on-One Tutoring",
-          description: "A dedicated student tutor provides personalized assistance to a peer, breaking down complex math problems using a whiteboard for clear explanations and interactive learning."
-        },
-        {
-          title: "Group Sessions",
-          description: "Students work collaboratively in a small group setting, discussing solutions and reinforcing concepts, with the tutor guiding their problem-solving process and encouraging peer-to-peer learning."
-        },
-        {
-          title: "Study Materials",
-          description: "Examples of the comprehensive study materials and worksheets created for the program, designed to cater to different learning styles and cover key mathematical concepts."
-        }
-      ]
-    }
-  ],
+  caseStudies: [],
   extracurricular: [
     {
       title: "School Event Management",
@@ -210,6 +165,36 @@ export const sampleStudentData: StudentProfile = {
         { caption: "Backstage Preparation", description: "A glimpse backstage reveals students eagerly preparing for their performances, showcasing the anticipation and collaborative spirit of the event." },
         { caption: "Planning & Budget", description: "A detailed event planning timeline and comprehensive budget sheet, illustrating the organized approach to managing resources and schedules for the show." },
         { caption: "Audience Reaction", description: "The enthusiastic audience captured in a moment of heartfelt applause, celebrating the performers and the success of the school talent show." }
+      ]
+    },
+    {
+      title: "Environmental Club President",
+      description: "Led the school's environmental club, organizing campus cleanups, recycling initiatives, and awareness campaigns about sustainability.",
+      skills: "Leadership, Environmental Advocacy, Team Building, Public Speaking",
+      duration: "1 year",
+      images: [
+        { caption: "Campus Cleanup", description: "Students working together during a campus-wide cleanup initiative." },
+        { caption: "Recycling Program", description: "Setting up recycling bins and educating students about proper waste sorting." }
+      ]
+    },
+    {
+      title: "Debate Team Captain",
+      description: "Captained the school debate team to regional championships, mentoring younger members and developing winning strategies.",
+      skills: "Critical Thinking, Public Speaking, Research, Mentorship",
+      duration: "2 years",
+      images: [
+        { caption: "Competition Day", description: "Team members preparing arguments before a major debate competition." },
+        { caption: "Trophy Ceremony", description: "Celebrating our regional championship victory." }
+      ]
+    },
+    {
+      title: "Community Art Workshop",
+      description: "Organized free art workshops for local elementary school students, teaching basic drawing and painting techniques.",
+      skills: "Teaching, Community Engagement, Creativity, Planning",
+      duration: "6 months",
+      images: [
+        { caption: "Workshop Session", description: "Leading young students through a painting exercise." },
+        { caption: "Student Artwork", description: "Display of beautiful artwork created by workshop participants." }
       ]
     }
   ],

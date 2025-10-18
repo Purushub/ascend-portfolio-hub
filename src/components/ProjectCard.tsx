@@ -10,14 +10,19 @@ interface ProjectCardProps {
   duration: string;
   link?: string;
   achievement?: string;
-  image?: string;
-  imageDescription?: string;
+  images?: string[];
+  imageDescriptions?: string[];
   onReadMore?: () => void;
 }
 
-export const ProjectCard = ({ title, description, skills, tools, duration, link, achievement, image, imageDescription, onReadMore }: ProjectCardProps) => {
+export const ProjectCard = ({ title, description, skills, tools, duration, link, achievement, images, imageDescriptions, onReadMore }: ProjectCardProps) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showAllImages, setShowAllImages] = useState(false);
   const truncatedDescription = description.length > 100 ? description.substring(0, 100) + "..." : description;
+  
+  const displayImages = images && images.length > 0 ? images : [];
+  const displayDescriptions = imageDescriptions && imageDescriptions.length > 0 ? imageDescriptions : [];
+  const visibleImages = showAllImages ? displayImages : displayImages.slice(0, 1);
 
   return (
     <Card className="group overflow-hidden hover:scale-[1.01] transition-all duration-500 relative">
@@ -27,17 +32,40 @@ export const ProjectCard = ({ title, description, skills, tools, duration, link,
           <span>{achievement}</span>
         </div>
       )}
-      <div className={`w-full h-48 overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 relative ${achievement ? 'mt-10' : ''}`}>
-        {image ? (
-          <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-        ) : imageDescription ? (
-          <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center backdrop-blur-sm">
+      <div className={`w-full overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 relative ${achievement ? 'mt-10' : ''}`}>
+        {displayImages.length > 0 ? (
+          <div className={`grid ${visibleImages.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-2 p-2`}>
+            {visibleImages.map((img, idx) => (
+              <div key={idx} className="space-y-1">
+                <div className={`${visibleImages.length === 1 ? 'h-48' : 'h-32'} overflow-hidden rounded-lg`}>
+                  <img src={img} alt={`${title} - ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                </div>
+                {displayDescriptions[idx] && (
+                  <p className="text-xs text-muted-foreground italic px-1">{displayDescriptions[idx]}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : displayDescriptions.length > 0 ? (
+          <div className="w-full h-48 flex flex-col items-center justify-center p-4 text-center backdrop-blur-sm">
             <div className="p-4 rounded-full bg-primary/10 mb-2">
               <ImageIcon className="h-12 w-12 text-primary" />
             </div>
-            <p className="text-xs text-muted-foreground italic max-w-[200px]">{imageDescription}</p>
+            <p className="text-xs text-muted-foreground italic max-w-[200px]">{displayDescriptions[0]}</p>
           </div>
-        ) : null}
+        ) : (
+          <div className="w-full h-48 flex items-center justify-center">
+            <ImageIcon className="h-12 w-12 text-muted-foreground/30" />
+          </div>
+        )}
+        {displayImages.length > 1 && (
+          <button
+            onClick={() => setShowAllImages(!showAllImages)}
+            className="absolute bottom-2 right-2 bg-primary/90 text-primary-foreground px-3 py-1 rounded-full text-xs font-medium hover:bg-primary transition-colors"
+          >
+            {showAllImages ? "Show less" : `+${displayImages.length - 1} more`}
+          </button>
+        )}
       </div>
       <CardHeader className="relative">
         <CardTitle className="text-xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">{title}</CardTitle>

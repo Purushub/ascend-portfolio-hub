@@ -360,53 +360,13 @@ const Portfolio = () => {
                 duration={project.duration}
                 link={project.link}
                 achievement={project.achievement}
-                image={project.images?.[0]} 
-                imageDescription={project.imageDescriptions?.[0]}
+                images={project.images} 
+                imageDescriptions={project.imageDescriptions}
               />
             ))}
           </div>
         </section>
 
-        {/* Case Studies */}
-        {studentData.caseStudies && studentData.caseStudies.length > 0 && (
-          <section className="space-y-6">
-            <h2 className="text-3xl font-bold text-foreground">Case Studies</h2>
-            
-            {studentData.caseStudies.map((study, idx) => (
-              <Card key={idx} className="overflow-hidden">
-                <CardHeader className="bg-gradient-to-r from-primary/10 to-accent/10">
-                  <CardTitle className="text-2xl">{study.title}</CardTitle>
-                  <p className="text-muted-foreground">{study.description}</p>
-                </CardHeader>
-                <CardContent className="pt-6">
-                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    {study.steps.map((step, stepIdx) => (
-                      <div key={stepIdx} className="space-y-3">
-                        <div className="aspect-video bg-secondary rounded-lg overflow-hidden">
-                          {step.image && (
-                            <img src={step.image} alt={step.title} className="w-full h-full object-cover" />
-                          )}
-                        </div>
-                        <h4 className="font-semibold">{step.title}</h4>
-                        <p className="text-sm text-muted-foreground">{step.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="space-y-2 border-t pt-4">
-                    <div>
-                      <span className="font-semibold text-primary">Skills Gained: </span>
-                      <span className="text-muted-foreground">{study.skills}</span>
-                    </div>
-                    <div>
-                      <span className="font-semibold text-primary">Duration: </span>
-                      <span className="text-muted-foreground">{study.duration}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </section>
-        )}
 
         {/* Beyond the Classroom */}
         {studentData.extracurricular && studentData.extracurricular.length > 0 && (
