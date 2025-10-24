@@ -185,49 +185,49 @@ const Portfolio = () => {
           </div>
           
           <div className="grid md:grid-cols-2 gap-6">
-            <Card className={theme === 'futuristic' ? 'bg-gray-900/80 border-purple-500/30 text-white' : ''}>
+            <Card className="bg-slate-900 border-slate-700 text-white">
               <CardHeader>
-                <CardTitle className={t.textColor}>Profile Information</CardTitle>
+                <CardTitle className="text-white">Profile Information</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-center gap-2">
                   <User className={`h-4 w-4 ${t.iconColor}`} />
-                  <span className={`font-semibold ${t.textColor}`}>Full Name:</span>
-                  <span className={t.textColor}>{studentData.fullName}</span>
+                  <span className="font-semibold text-white">Full Name:</span>
+                  <span className="text-gray-200">{studentData.fullName}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <GraduationCap className={`h-4 w-4 ${t.iconColor}`} />
-                  <span className={`font-semibold ${t.textColor}`}>School:</span>
-                  <span className={t.textColor}>{studentData.schoolName}</span>
+                  <span className="font-semibold text-white">School:</span>
+                  <span className="text-gray-200">{studentData.schoolName}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className={`font-semibold ${t.textColor}`}>Grade:</span>
-                  <span className={t.textColor}>{studentData.grade}</span>
+                  <span className="font-semibold text-white">Grade:</span>
+                  <span className="text-gray-200">{studentData.grade}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className={`h-4 w-4 ${t.iconColor}`} />
-                  <span className={`font-semibold ${t.textColor}`}>Year:</span>
-                  <span className={t.textColor}>{studentData.year}</span>
+                  <span className="font-semibold text-white">Year:</span>
+                  <span className="text-gray-200">{studentData.year}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Hash className={`h-4 w-4 ${t.iconColor}`} />
-                  <span className={`font-semibold ${t.textColor}`}>Profile ID:</span>
-                  <span className={t.mutedText}>{studentData.profileId}</span>
+                  <span className="font-semibold text-white">Profile ID:</span>
+                  <span className="text-gray-300">{studentData.profileId}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className={`h-4 w-4 ${t.iconColor}`} />
-                  <span className={`font-semibold ${t.textColor}`}>Last Updated:</span>
-                  <span className={t.mutedText}>{studentData.lastUpdated}</span>
+                  <span className="font-semibold text-white">Last Updated:</span>
+                  <span className="text-gray-300">{studentData.lastUpdated}</span>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className={theme === 'futuristic' ? 'bg-gray-900/80 border-purple-500/30 text-white' : ''}>
+            <Card className="bg-slate-900 border-slate-700 text-white">
               <CardHeader>
-                <CardTitle className={t.textColor}>About Me</CardTitle>
+                <CardTitle className="text-white">About Me</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className={`${t.mutedText} leading-relaxed`}>{studentData.aboutMe}</p>
+                <p className="text-gray-300 leading-relaxed">{studentData.aboutMe}</p>
               </CardContent>
             </Card>
           </div>
