@@ -105,10 +105,10 @@ const Portfolio = () => {
       headerTitle: "text-5xl font-black mb-2",
       headerSubtitle: "text-lg",
       button: "bg-white/20 hover:bg-white/30 border-white/40",
-      section: "bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg rounded-3xl p-8 space-y-6 shadow-xl border-2 border-purple-200 dark:border-purple-800",
+      section: "bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg rounded-3xl p-8 space-y-6 shadow-xl border-2 border-purple-200 dark:border-purple-800",
       sectionTitle: "text-3xl font-black bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent dark:from-pink-400 dark:to-purple-400",
       textColor: "text-gray-900 dark:text-white",
-      mutedText: "text-gray-600 dark:text-gray-300",
+      mutedText: "text-gray-700 dark:text-gray-300",
       iconColor: "text-purple-600 dark:text-purple-400",
     },
     modern: {
@@ -117,10 +117,10 @@ const Portfolio = () => {
       headerTitle: "text-4xl font-bold mb-2 tracking-tight",
       headerSubtitle: "text-lg",
       button: "bg-blue-500 hover:bg-blue-600 text-white",
-      section: "bg-white dark:bg-slate-800 rounded-xl p-8 space-y-6 shadow-lg border border-slate-200 dark:border-slate-700",
+      section: "bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg rounded-xl p-8 space-y-6 shadow-lg border border-slate-200 dark:border-slate-700",
       sectionTitle: "text-3xl font-bold text-slate-900 dark:text-white tracking-tight",
       textColor: "text-slate-900 dark:text-white",
-      mutedText: "text-slate-600 dark:text-slate-300",
+      mutedText: "text-slate-700 dark:text-slate-300",
       iconColor: "text-blue-500",
     },
     futuristic: {
@@ -129,10 +129,10 @@ const Portfolio = () => {
       headerTitle: "text-5xl font-black mb-2 tracking-wider uppercase text-white",
       headerSubtitle: "text-lg text-purple-300",
       button: "border-purple-500 text-purple-300 hover:bg-purple-500/20 bg-transparent",
-      section: "bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-xl rounded-xl p-8 space-y-6 border border-purple-500/20 shadow-2xl shadow-purple-500/10",
+      section: "bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl rounded-xl p-8 space-y-6 border border-purple-500/20 shadow-2xl shadow-purple-500/10",
       sectionTitle: "text-3xl font-bold text-white tracking-wide uppercase",
       textColor: "text-white",
-      mutedText: "text-gray-400",
+      mutedText: "text-gray-300",
       iconColor: "text-purple-400",
     },
   };
@@ -199,7 +199,7 @@ const Portfolio = () => {
           </div>
           
           <div className="grid md:grid-cols-2 gap-6">
-            <Card className={theme === 'futuristic' ? 'bg-gray-900/50 border-purple-500/20' : ''}>
+            <Card className={theme === 'futuristic' ? 'bg-gray-900/80 border-purple-500/30 text-white' : ''}>
               <CardHeader>
                 <CardTitle className={t.textColor}>Profile Information</CardTitle>
               </CardHeader>
@@ -236,7 +236,7 @@ const Portfolio = () => {
               </CardContent>
             </Card>
 
-            <Card className={theme === 'futuristic' ? 'bg-gray-900/50 border-purple-500/20' : ''}>
+            <Card className={theme === 'futuristic' ? 'bg-gray-900/80 border-purple-500/30 text-white' : ''}>
               <CardHeader>
                 <CardTitle className={t.textColor}>About Me</CardTitle>
               </CardHeader>
@@ -261,7 +261,7 @@ const Portfolio = () => {
           </Card>
 
           {/* Social Energy Style */}
-          <Card className={theme === 'futuristic' ? 'bg-gray-900/50 border-purple-500/20' : ''}>
+          <Card className={theme === 'futuristic' ? 'bg-gray-900/80 border-purple-500/30 text-white' : ''}>
             <CardHeader>
               <CardTitle className={`text-xl ${t.textColor}`}>Your Social Energy Style</CardTitle>
             </CardHeader>
@@ -360,7 +360,7 @@ const Portfolio = () => {
           </div>
 
           {/* Detailed Breakdown */}
-          <Card className={theme === 'futuristic' ? 'bg-gray-900/50 border-purple-500/20' : ''}>
+          <Card className={theme === 'futuristic' ? 'bg-gray-900/80 border-purple-500/30 text-white' : ''}>
             <CardHeader>
               <CardTitle className={`text-2xl ${t.textColor}`}>Detailed Breakdown</CardTitle>
             </CardHeader>
