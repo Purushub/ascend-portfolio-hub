@@ -1,3 +1,5 @@
+export type ThemeType = "minimal" | "creative" | "modern" | "futuristic";
+
 export interface StudentProfile {
   fullName: string;
   schoolName: string;
@@ -7,6 +9,7 @@ export interface StudentProfile {
   lastUpdated: string;
   aboutMe: string;
   profileImage?: string;
+  theme?: ThemeType;
   achievementLevel?: "Scholar" | "Valedictorian" | "Brilliant" | "Diligent" | "Exemplary" | "Focused" | "Motivated" | "Disciplined" | "Curious" | "Proactive";
   archetype: {
     title: string;

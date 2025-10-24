@@ -22,6 +22,7 @@ export const UploadForm = () => {
     year: "",
     aboutMe: "",
     personalBio: "",
+    theme: "minimal",
     coreStrengths: [],
     passions: [],
     archetype: {
@@ -277,6 +278,25 @@ export const UploadForm = () => {
                   })}
                   placeholder="e.g., Music, Technology, Sports"
                 />
+              </div>
+
+              {/* Theme Selection */}
+              <div className="space-y-2">
+                <Label htmlFor="theme">Portfolio Theme</Label>
+                <Select
+                  value={formData.theme || "minimal"}
+                  onValueChange={(value: any) => setFormData({ ...formData, theme: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select theme" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="minimal">Minimal - Clean & Simple</SelectItem>
+                    <SelectItem value="creative">Creative - Colorful & Bold</SelectItem>
+                    <SelectItem value="modern">Modern - Sleek & Professional</SelectItem>
+                    <SelectItem value="futuristic">Futuristic - Dark & Edgy</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Achievement Level */}

@@ -8,6 +8,7 @@ export const sampleStudentData: StudentProfile = {
   profileId: "STU-2024-EC-8472",
   lastUpdated: "October 13, 2025",
   achievementLevel: "Exemplary",
+  theme: "minimal",
   aboutMe: "A well-crafted profile snapshot establishes your professional presence and helps viewers quickly understand your academic standing and current educational context. I am passionate about technology, creative problem-solving, and making a positive impact in my community.",
   archetype: {
     title: "The Visionary Collaborator",
