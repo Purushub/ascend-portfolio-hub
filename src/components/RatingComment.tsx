@@ -48,7 +48,7 @@ export const RatingComment = () => {
   return (
     <section className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold text-foreground mb-2">Ratings & Comments</h2>
+        <h2 className="text-3xl font-bold text-white dark:text-white mb-2">Ratings & Comments</h2>
         <p className="text-muted-foreground">Share your feedback and see what others are saying</p>
       </div>
 
