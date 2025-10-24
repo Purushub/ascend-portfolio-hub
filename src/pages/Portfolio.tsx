@@ -11,30 +11,30 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { RatingComment } from "@/components/RatingComment";
 import { useNavigate } from "react-router-dom";
-
 const Portfolio = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const studentData: StudentProfile = location.state?.studentData;
   const [copied, setCopied] = useState(false);
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const theme = studentData?.theme || "minimal";
-
   const handleUpdate = () => {
-    navigate("/upload-form", { state: { studentData } });
+    navigate("/upload-form", {
+      state: {
+        studentData
+      }
+    });
   };
-
   if (!studentData) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+    return <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4">No student data found</h2>
           <Button onClick={() => window.location.href = "/"}>Return to Upload</Button>
         </div>
-      </div>
-    );
+      </div>;
   }
-
   const skillColors = {
     Adaptability: "#8B5CF6",
     Teamwork: "#10B981",
@@ -45,12 +45,13 @@ const Portfolio = () => {
     "Emotional Intelligence": "#14B8A6",
     Leadership: "#F97316",
     "Problem Solving": "#3B82F6",
-    "Time Management": "#22C55E",
+    "Time Management": "#22C55E"
   };
-
   const exportAsHTML = () => {
     const html = document.documentElement.outerHTML;
-    const blob = new Blob([html], { type: "text/html" });
+    const blob = new Blob([html], {
+      type: "text/html"
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -60,16 +61,14 @@ const Portfolio = () => {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
-
   const sharePortfolio = async () => {
     const shareUrl = window.location.href;
-    
     if (navigator.share) {
       try {
         await navigator.share({
           title: `${studentData.fullName}'s Portfolio`,
           text: `Check out ${studentData.fullName}'s digital portfolio!`,
-          url: shareUrl,
+          url: shareUrl
         });
       } catch (err) {
         console.log('Share cancelled');
@@ -79,7 +78,7 @@ const Portfolio = () => {
       setCopied(true);
       toast({
         title: "Link copied!",
-        description: "Portfolio link has been copied to clipboard.",
+        description: "Portfolio link has been copied to clipboard."
       });
       setTimeout(() => setCopied(false), 2000);
     }
@@ -97,7 +96,7 @@ const Portfolio = () => {
       sectionTitle: "text-3xl font-bold text-foreground",
       textColor: "text-foreground",
       mutedText: "text-muted-foreground",
-      iconColor: "text-primary",
+      iconColor: "text-primary"
     },
     creative: {
       wrapper: "min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 dark:from-pink-950 dark:via-purple-950 dark:to-blue-950",
@@ -109,7 +108,7 @@ const Portfolio = () => {
       sectionTitle: "text-3xl font-black bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent dark:from-pink-400 dark:to-purple-400",
       textColor: "text-gray-900 dark:text-white",
       mutedText: "text-gray-700 dark:text-gray-300",
-      iconColor: "text-purple-600 dark:text-purple-400",
+      iconColor: "text-purple-600 dark:text-purple-400"
     },
     modern: {
       wrapper: "min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800",
@@ -121,7 +120,7 @@ const Portfolio = () => {
       sectionTitle: "text-3xl font-bold text-slate-900 dark:text-white tracking-tight",
       textColor: "text-slate-900 dark:text-white",
       mutedText: "text-slate-700 dark:text-slate-300",
-      iconColor: "text-blue-500",
+      iconColor: "text-blue-500"
     },
     futuristic: {
       wrapper: "min-h-screen bg-black",
@@ -133,14 +132,11 @@ const Portfolio = () => {
       sectionTitle: "text-3xl font-bold text-white tracking-wide uppercase",
       textColor: "text-white",
       mutedText: "text-gray-300",
-      iconColor: "text-purple-400",
-    },
+      iconColor: "text-purple-400"
+    }
   };
-
   const t = themeClasses[theme];
-
-  return (
-    <div className={t.wrapper}>
+  return <div className={t.wrapper}>
       {/* Header with Export Button */}
       <div className={t.header}>
         <div className="max-w-6xl mx-auto flex justify-between items-center">
@@ -178,23 +174,13 @@ const Portfolio = () => {
             <div className="relative">
               <div className={`absolute inset-0 ${theme === 'futuristic' ? 'bg-gradient-to-r from-purple-500 via-purple-600 to-pink-500' : 'bg-gradient-to-r from-primary via-purple-500 to-pink-500'} rounded-full blur-xl opacity-75 animate-pulse`}></div>
               <div className={`relative w-40 h-40 rounded-full ${theme === 'futuristic' ? 'border-4 border-purple-500' : 'border-4 border-primary'} overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 shadow-2xl`}>
-                {studentData.profileImage ? (
-                  <img 
-                    src={studentData.profileImage} 
-                    alt={studentData.fullName}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-accent">
+                {studentData.profileImage ? <img src={studentData.profileImage} alt={studentData.fullName} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-accent">
                     <User className="h-20 w-20 text-primary-foreground" />
-                  </div>
-                )}
+                  </div>}
               </div>
-              {studentData.achievementLevel && (
-                <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 ${theme === 'futuristic' ? 'bg-gradient-to-r from-purple-600 to-pink-600' : 'bg-gradient-to-r from-primary to-purple-600'} text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg border border-white/20`}>
+              {studentData.achievementLevel && <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 ${theme === 'futuristic' ? 'bg-gradient-to-r from-purple-600 to-pink-600' : 'bg-gradient-to-r from-primary to-purple-600'} text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg border border-white/20`}>
                   ⭐ {studentData.achievementLevel}
-                </div>
-              )}
+                </div>}
             </div>
           </div>
           
@@ -277,13 +263,11 @@ const Portfolio = () => {
         </section>
 
         {/* My Story So Far */}
-        {(studentData.personalBio || studentData.coreStrengths?.length > 0 || studentData.passions?.length > 0) && (
-          <section className="space-y-6">
+        {(studentData.personalBio || studentData.coreStrengths?.length > 0 || studentData.passions?.length > 0) && <section className="space-y-6">
             <h2 className={t.sectionTitle}>My Story So Far</h2>
             
             <div className="grid md:grid-cols-3 gap-6">
-              {studentData.personalBio && (
-                <Card className={theme === 'futuristic' ? 'bg-gradient-to-br from-purple-900/20 to-purple-900/10 border-purple-500/20' : 'bg-gradient-to-br from-primary/10 to-primary/5'}>
+              {studentData.personalBio && <Card className={theme === 'futuristic' ? 'bg-gradient-to-br from-purple-900/20 to-purple-900/10 border-purple-500/20' : 'bg-gradient-to-br from-primary/10 to-primary/5'}>
                   <CardHeader>
                     <CardTitle className={`flex items-center gap-2 ${t.textColor}`}>
                       <div className={`w-10 h-10 rounded-full ${theme === 'futuristic' ? 'bg-purple-500/20 text-purple-300' : 'bg-primary text-primary-foreground'} flex items-center justify-center`}>
@@ -295,11 +279,9 @@ const Portfolio = () => {
                   <CardContent>
                     <p className={`text-sm ${t.mutedText} leading-relaxed`}>{studentData.personalBio}</p>
                   </CardContent>
-                </Card>
-              )}
+                </Card>}
 
-              {studentData.coreStrengths && studentData.coreStrengths.length > 0 && (
-                <Card className={theme === 'futuristic' ? 'bg-gradient-to-br from-pink-900/20 to-pink-900/10 border-purple-500/20' : 'bg-gradient-to-br from-accent/10 to-accent/5'}>
+              {studentData.coreStrengths && studentData.coreStrengths.length > 0 && <Card className={theme === 'futuristic' ? 'bg-gradient-to-br from-pink-900/20 to-pink-900/10 border-purple-500/20' : 'bg-gradient-to-br from-accent/10 to-accent/5'}>
                   <CardHeader>
                     <CardTitle className={`flex items-center gap-2 ${t.textColor}`}>
                       <div className={`w-10 h-10 rounded-full ${theme === 'futuristic' ? 'bg-pink-500/20 text-pink-300' : 'bg-accent text-accent-foreground'} flex items-center justify-center`}>
@@ -310,16 +292,12 @@ const Portfolio = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
-                      {studentData.coreStrengths.map((strength, idx) => (
-                        <Badge key={idx} variant="outline" className={theme === 'futuristic' ? 'border-purple-500/30 text-purple-300' : ''}>{strength}</Badge>
-                      ))}
+                      {studentData.coreStrengths.map((strength, idx) => <Badge key={idx} variant="outline" className={theme === 'futuristic' ? 'border-purple-500/30 text-purple-300' : ''}>{strength}</Badge>)}
                     </div>
                   </CardContent>
-                </Card>
-              )}
+                </Card>}
 
-              {studentData.passions && studentData.passions.length > 0 && (
-                <Card className={theme === 'futuristic' ? 'bg-gradient-to-br from-blue-900/20 to-blue-900/10 border-purple-500/20' : 'bg-gradient-to-br from-success/10 to-success/5'}>
+              {studentData.passions && studentData.passions.length > 0 && <Card className={theme === 'futuristic' ? 'bg-gradient-to-br from-blue-900/20 to-blue-900/10 border-purple-500/20' : 'bg-gradient-to-br from-success/10 to-success/5'}>
                   <CardHeader>
                     <CardTitle className={`flex items-center gap-2 ${t.textColor}`}>
                       <div className={`w-10 h-10 rounded-full ${theme === 'futuristic' ? 'bg-blue-500/20 text-blue-300' : 'bg-success text-success-foreground'} flex items-center justify-center`}>
@@ -330,16 +308,12 @@ const Portfolio = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
-                      {studentData.passions.map((passion, idx) => (
-                        <Badge key={idx} variant="secondary" className={theme === 'futuristic' ? 'bg-purple-500/20 text-purple-300' : ''}>{passion}</Badge>
-                      ))}
+                      {studentData.passions.map((passion, idx) => <Badge key={idx} variant="secondary" className={theme === 'futuristic' ? 'bg-purple-500/20 text-purple-300' : ''}>{passion}</Badge>)}
                     </div>
                   </CardContent>
-                </Card>
-              )}
+                </Card>}
             </div>
-          </section>
-        )}
+          </section>}
 
         {/* Skills Profile */}
         <section className="space-y-6">
@@ -349,14 +323,7 @@ const Portfolio = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
-            {Object.entries(studentData.skills).map(([skill, data]) => (
-              <SkillCircle
-                key={skill}
-                skill={skill}
-                percentage={data.overall}
-                color={skillColors[skill as keyof typeof skillColors] || "#8B5CF6"}
-              />
-            ))}
+            {Object.entries(studentData.skills).map(([skill, data]) => <SkillCircle key={skill} skill={skill} percentage={data.overall} color={skillColors[skill as keyof typeof skillColors] || "#8B5CF6"} />)}
           </div>
 
           {/* Detailed Breakdown */}
@@ -366,30 +333,25 @@ const Portfolio = () => {
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-6">
-                {Object.entries(studentData.skills).map(([skill, data]) => (
-                  <div key={skill} className="space-y-3">
+                {Object.entries(studentData.skills).map(([skill, data]) => <div key={skill} className="space-y-3">
                     <div className="flex items-center justify-between">
                       <h4 className={`font-semibold text-lg ${t.textColor}`}>{skill}</h4>
                       <span className={`text-2xl font-bold ${theme === 'futuristic' ? 'text-purple-400' : 'text-primary'}`}>{data.overall}%</span>
                     </div>
                     <div className="space-y-2">
-                      {Object.entries(data.subSkills).map(([subSkill, value]) => (
-                        <div key={subSkill} className="space-y-1">
+                      {Object.entries(data.subSkills).map(([subSkill, value]) => <div key={subSkill} className="space-y-1">
                           <div className="flex justify-between text-sm">
                             <span className={t.mutedText}>{subSkill}</span>
                             <span className={`font-medium ${t.textColor}`}>{value}%</span>
                           </div>
                           <div className={`h-2 ${theme === 'futuristic' ? 'bg-gray-800' : 'bg-muted'} rounded-full overflow-hidden`}>
-                            <div
-                              className={`h-full ${theme === 'futuristic' ? 'bg-purple-500' : 'bg-primary'} transition-all duration-1000`}
-                              style={{ width: `${value}%` }}
-                            />
+                            <div className={`h-full ${theme === 'futuristic' ? 'bg-purple-500' : 'bg-primary'} transition-all duration-1000`} style={{
+                        width: `${value}%`
+                      }} />
                           </div>
-                        </div>
-                      ))}
+                        </div>)}
                     </div>
-                  </div>
-                ))}
+                  </div>)}
               </div>
             </CardContent>
           </Card>
@@ -405,41 +367,24 @@ const Portfolio = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {studentData.projects.map((project, idx) => (
-              <ProjectCard 
-                key={idx} 
-                title={project.title}
-                description={project.description}
-                skills={project.skills}
-                tools={project.tools}
-                duration={project.duration}
-                link={project.link}
-                achievement={project.achievement}
-                images={project.images} 
-                imageDescriptions={project.imageDescriptions}
-              />
-            ))}
+            {studentData.projects.map((project, idx) => <ProjectCard key={idx} title={project.title} description={project.description} skills={project.skills} tools={project.tools} duration={project.duration} link={project.link} achievement={project.achievement} images={project.images} imageDescriptions={project.imageDescriptions} />)}
           </div>
         </section>
 
 
         {/* Beyond the Classroom */}
-        {studentData.extracurricular && studentData.extracurricular.length > 0 && (
-          <section className="space-y-6">
+        {studentData.extracurricular && studentData.extracurricular.length > 0 && <section className="space-y-6">
             <h2 className={t.sectionTitle}>Beyond the Classroom</h2>
             
             <div className="grid md:grid-cols-2 gap-6">
-              {studentData.extracurricular.map((activity, idx) => (
-                <Card key={idx} className={`overflow-hidden ${theme === 'futuristic' ? 'bg-gray-900/50 border-purple-500/20' : ''}`}>
+              {studentData.extracurricular.map((activity, idx) => <Card key={idx} className={`overflow-hidden ${theme === 'futuristic' ? 'bg-gray-900/50 border-purple-500/20' : ''}`}>
                   <CardHeader className={theme === 'futuristic' ? 'bg-gradient-to-r from-purple-900/30 to-pink-900/30' : 'bg-gradient-to-r from-accent/10 to-primary/10'}>
                     <CardTitle className={`text-xl ${t.textColor}`}>{activity.title}</CardTitle>
                     <p className={t.mutedText}>{activity.description}</p>
                   </CardHeader>
                   <CardContent className="pt-6">
-                    {activity.images && activity.images.length > 0 && (
-                      <div className="grid grid-cols-2 gap-4 mb-4">
-                        {activity.images.map((img, imgIdx) => (
-                          <div key={imgIdx} className="space-y-2">
+                    {activity.images && activity.images.length > 0 && <div className="grid grid-cols-2 gap-4 mb-4">
+                        {activity.images.map((img, imgIdx) => <div key={imgIdx} className="space-y-2">
                             <div className={`aspect-video ${theme === 'futuristic' ? 'bg-gray-800' : 'bg-secondary'} rounded-lg overflow-hidden`}>
                               {/* Placeholder for image */}
                             </div>
@@ -447,10 +392,8 @@ const Portfolio = () => {
                               <p className={`font-semibold ${t.textColor}`}>{img.caption}</p>
                               <p className={t.mutedText}>{img.description}</p>
                             </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                          </div>)}
+                      </div>}
                     <div className="space-y-2 border-t pt-4">
                       <div>
                         <span className={`font-semibold ${theme === 'futuristic' ? 'text-purple-400' : 'text-primary'}`}>Skills: </span>
@@ -462,15 +405,12 @@ const Portfolio = () => {
                       </div>
                     </div>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
-          </section>
-        )}
+          </section>}
 
         {/* Career Paths */}
-        {studentData.careerPaths && studentData.careerPaths.length > 0 && (
-          <section className="space-y-6">
+        {studentData.careerPaths && studentData.careerPaths.length > 0 && <section className="space-y-6">
             <div>
               <h2 className={`${t.sectionTitle} mb-2`}>Potential Career Paths</h2>
               <p className={t.mutedText}>
@@ -479,55 +419,34 @@ const Portfolio = () => {
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
-              {studentData.careerPaths.map((career, idx) => (
-                <CareerCard
-                  key={idx}
-                  title={career.title}
-                  field={career.field}
-                  whyLoveIt={career.whyLoveIt}
-                  dayLooksLike={career.dayLooksLike}
-                  keySubjects={career.keySubjects}
-                />
-              ))}
+              {studentData.careerPaths.map((career, idx) => <CareerCard key={idx} title={career.title} field={career.field} whyLoveIt={career.whyLoveIt} dayLooksLike={career.dayLooksLike} keySubjects={career.keySubjects} />)}
             </div>
-          </section>
-        )}
+          </section>}
 
         {/* Publications */}
-        {studentData.publications && studentData.publications.length > 0 && (
-          <section className="space-y-6">
+        {studentData.publications && studentData.publications.length > 0 && <section className="space-y-6">
             <h2 className={t.sectionTitle}>Publications & Writing</h2>
             <div className="grid md:grid-cols-2 gap-6">
-              {studentData.publications.map((pub, idx) => (
-                <Card key={idx} className={theme === 'futuristic' ? 'bg-gray-900/50 border-purple-500/20 hover:border-purple-500/40' : 'hover:shadow-lg'}>
+              {studentData.publications.map((pub, idx) => <Card key={idx} className={theme === 'futuristic' ? 'bg-gray-900/50 border-purple-500/20 hover:border-purple-500/40' : 'hover:shadow-lg'}>
                   <CardHeader>
                     <CardTitle className={t.textColor}>{pub.title}</CardTitle>
                     <p className={t.mutedText}>{pub.platform} • {pub.date}</p>
                   </CardHeader>
                   <CardContent>
-                    <a 
-                      href={pub.link} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className={`${theme === 'futuristic' ? 'text-purple-400 hover:text-purple-300' : 'text-primary hover:underline'}`}
-                    >
+                    <a href={pub.link} target="_blank" rel="noopener noreferrer" className={`${theme === 'futuristic' ? 'text-purple-400 hover:text-purple-300' : 'text-primary hover:underline'}`}>
                       Read Article →
                     </a>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
-          </section>
-        )}
+          </section>}
 
         {/* Ratings & Comments */}
         <section className="space-y-6">
-          <h2 className={t.sectionTitle}>Ratings & Comments</h2>
+          
           <RatingComment />
         </section>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Portfolio;
