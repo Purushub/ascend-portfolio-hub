@@ -123,6 +123,18 @@ const Portfolio = () => {
       mutedText: "text-slate-700 dark:text-slate-300",
       iconColor: "text-blue-500"
     },
+    futuristic: {
+      wrapper: "min-h-screen bg-black",
+      header: "bg-gradient-to-r from-black via-purple-950 to-black text-white py-12 px-6 border-b border-purple-500/30",
+      headerTitle: "text-5xl font-black mb-2 tracking-wider uppercase text-white",
+      headerSubtitle: "text-lg text-purple-300",
+      button: "border-purple-500 text-purple-300 hover:bg-purple-500/20 bg-transparent",
+      section: "bg-gradient-to-br from-gray-900/40 to-black/40 backdrop-blur-xl rounded-xl p-8 space-y-6 border border-purple-500/30 shadow-2xl shadow-purple-500/20",
+      sectionTitle: "text-3xl font-bold text-white tracking-wide uppercase",
+      textColor: "text-white",
+      mutedText: "text-gray-300",
+      iconColor: "text-purple-400"
+    },
     "futuristic - new age gen z": {
       wrapper: "min-h-screen bg-black",
       header: "bg-gradient-to-r from-black via-purple-950 to-black text-white py-12 px-6 border-b border-purple-500/30",
@@ -136,7 +148,7 @@ const Portfolio = () => {
       iconColor: "text-purple-400"
     }
   };
-  const t = themeClasses[theme];
+  const t = themeClasses[theme] || themeClasses.minimal;
   return <div className={t.wrapper}>
       {/* Header with Export Button */}
       <div className={t.header}>
