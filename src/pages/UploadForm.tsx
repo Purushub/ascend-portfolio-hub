@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import * as React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -45,20 +46,27 @@ export const UploadForm = () => {
   const [profileImagePreview, setProfileImagePreview] = useState<string>("");
   const [selectedAvatar, setSelectedAvatar] = useState<string>("");
   
-  const avatarOptions = [
-    "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
-    "https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka",
-    "https://api.dicebear.com/7.x/avataaars/svg?seed=Luna",
-    "https://api.dicebear.com/7.x/avataaars/svg?seed=Max",
-    "https://api.dicebear.com/7.x/avataaars/svg?seed=Sophie",
-    "https://api.dicebear.com/7.x/avataaars/svg?seed=Oliver",
-    "https://api.dicebear.com/7.x/big-smile/svg?seed=Happy",
-    "https://api.dicebear.com/7.x/big-smile/svg?seed=Joy",
-    "https://api.dicebear.com/7.x/bottts/svg?seed=Robot",
-    "https://api.dicebear.com/7.x/lorelei/svg?seed=Star",
-    "https://api.dicebear.com/7.x/lorelei/svg?seed=Moon",
-    "https://api.dicebear.com/7.x/personas/svg?seed=Alex",
+  const [avatarGender, setAvatarGender] = React.useState<'male' | 'female'>('male');
+  
+  const maleAvatars = [
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&backgroundColor=b6e3f4',
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Max&backgroundColor=c0aede',
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Oliver&backgroundColor=d1d4f9',
+    'https://api.dicebear.com/7.x/big-smile/svg?seed=Charlie&backgroundColor=ffd5dc',
+    'https://api.dicebear.com/7.x/adventurer/svg?seed=James&backgroundColor=ffdfbf',
+    'https://api.dicebear.com/7.x/lorelei/svg?seed=Lucas&backgroundColor=b6e3f4',
   ];
+
+  const femaleAvatars = [
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka&backgroundColor=ffd5dc',
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Luna&backgroundColor=ffdfbf',
+    'https://api.dicebear.com/7.x/avataaars/svg?seed=Sophie&backgroundColor=d1d4f9',
+    'https://api.dicebear.com/7.x/big-smile/svg?seed=Emma&backgroundColor=c0aede',
+    'https://api.dicebear.com/7.x/adventurer/svg?seed=Mia&backgroundColor=b6e3f4',
+    'https://api.dicebear.com/7.x/lorelei/svg?seed=Olivia&backgroundColor=ffd5dc',
+  ];
+
+  const avatarOptions = avatarGender === 'male' ? maleAvatars : femaleAvatars;
   
   // Load existing data if available
   useEffect(() => {
@@ -228,25 +236,43 @@ export const UploadForm = () => {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    <Label>Select an Avatar</Label>
-                    <div className="grid grid-cols-4 md:grid-cols-6 gap-3">
+                    <Label>Choose Avatar Style</Label>
+                    <div className="flex gap-2 mb-4">
+                      <Button
+                        type="button"
+                        variant={avatarGender === 'male' ? 'default' : 'outline'}
+                        onClick={() => setAvatarGender('male')}
+                        className="flex-1"
+                      >
+                        Male Avatars
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={avatarGender === 'female' ? 'default' : 'outline'}
+                        onClick={() => setAvatarGender('female')}
+                        className="flex-1"
+                      >
+                        Female Avatars
+                      </Button>
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
                       {avatarOptions.map((avatar, index) => (
                         <button
                           key={index}
                           type="button"
                           onClick={() => setSelectedAvatar(avatar)}
-                          className={`w-full aspect-square rounded-full overflow-hidden border-2 transition-all hover:scale-105 ${
-                            selectedAvatar === avatar ? "border-primary ring-2 ring-primary" : "border-muted"
+                          className={`w-full aspect-square rounded-2xl overflow-hidden border-2 transition-all hover:scale-105 ${
+                            selectedAvatar === avatar ? "border-primary ring-4 ring-primary/20 scale-105" : "border-muted"
                           }`}
                         >
-                          <img src={avatar} alt={`Avatar ${index + 1}`} className="w-full h-full object-cover" />
+                          <img src={avatar} alt={`Avatar ${index + 1}`} className="w-full h-full object-contain rounded-xl" />
                         </button>
                       ))}
                     </div>
                     {selectedAvatar && (
-                      <div className="flex justify-center">
+                      <div className="flex justify-center mt-4">
                         <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-primary">
-                          <img src={selectedAvatar} alt="Selected Avatar" className="w-full h-full object-cover" />
+                          <img src={selectedAvatar} alt="Selected Avatar" className="w-full h-full object-contain" />
                         </div>
                       </div>
                     )}

@@ -67,6 +67,15 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Wholesome theme colors */
+    --wholesome-sage: 140 30% 60%;
+    --wholesome-terracotta: 15 60% 65%;
+    --wholesome-cream: 40 40% 90%;
+    --wholesome-sand: 35 25% 80%;
+    --wholesome-dark-green: 145 40% 35%;
+    --wholesome-accent: 25 75% 65%;
+    --wholesome-light: 35 50% 95%;
   }
 
   .dark {
