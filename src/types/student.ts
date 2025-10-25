@@ -9,6 +9,7 @@ export interface StudentProfile {
   lastUpdated: string;
   aboutMe: string;
   profileImage?: string;
+  selectedAvatar?: string;
   theme?: ThemeType;
   achievementLevel?: "Scholar" | "Valedictorian" | "Brilliant" | "Diligent" | "Exemplary" | "Focused" | "Motivated" | "Disciplined" | "Curious" | "Proactive";
   archetype: {

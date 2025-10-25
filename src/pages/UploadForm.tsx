@@ -43,12 +43,29 @@ export const UploadForm = () => {
 
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
   const [profileImagePreview, setProfileImagePreview] = useState<string>("");
+  const [selectedAvatar, setSelectedAvatar] = useState<string>("");
+  
+  const avatarOptions = [
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka",
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=Luna",
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=Max",
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=Sophie",
+    "https://api.dicebear.com/7.x/avataaars/svg?seed=Oliver",
+    "https://api.dicebear.com/7.x/big-smile/svg?seed=Happy",
+    "https://api.dicebear.com/7.x/big-smile/svg?seed=Joy",
+    "https://api.dicebear.com/7.x/bottts/svg?seed=Robot",
+    "https://api.dicebear.com/7.x/lorelei/svg?seed=Star",
+    "https://api.dicebear.com/7.x/lorelei/svg?seed=Moon",
+    "https://api.dicebear.com/7.x/personas/svg?seed=Alex",
+  ];
   
   // Load existing data if available
   useEffect(() => {
     if (existingData) {
       setFormData(existingData);
       setProfileImagePreview(existingData.profileImage || "");
+      setSelectedAvatar(existingData.selectedAvatar || "");
       setProjects(existingData.projects.map(p => ({
         ...p,
         link: p.link || "",
@@ -147,6 +164,7 @@ export const UploadForm = () => {
       profileId: `STU-${Date.now()}`,
       lastUpdated: new Date().toLocaleDateString(),
       profileImage: profileImagePreview || undefined,
+      selectedAvatar: selectedAvatar || undefined,
       projects,
       caseStudies,
       extracurricular,
@@ -168,22 +186,72 @@ export const UploadForm = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Profile Picture Upload */}
-              <div className="space-y-2">
-                <Label htmlFor="profileImage">Profile Picture</Label>
-                <div className="flex items-center gap-4">
-                  {profileImagePreview && (
-                    <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-primary">
-                      <img src={profileImagePreview} alt="Profile" className="w-full h-full object-cover" />
-                    </div>
-                  )}
-                  <Input
-                    id="profileImage"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleProfileImageChange}
-                    className="flex-1"
-                  />
+              <div className="space-y-4">
+                <Label>Profile Picture</Label>
+                
+                {/* Tabs for Upload or Avatar Selection */}
+                <div className="flex gap-2 mb-4">
+                  <Button
+                    type="button"
+                    variant={!selectedAvatar ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSelectedAvatar("")}
+                  >
+                    Upload Photo
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={selectedAvatar ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setProfileImagePreview("")}
+                  >
+                    Choose Avatar
+                  </Button>
                 </div>
+
+                {!selectedAvatar ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-4">
+                      {profileImagePreview && (
+                        <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-primary">
+                          <img src={profileImagePreview} alt="Profile" className="w-full h-full object-cover" />
+                        </div>
+                      )}
+                      <Input
+                        id="profileImage"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleProfileImageChange}
+                        className="flex-1"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <Label>Select an Avatar</Label>
+                    <div className="grid grid-cols-4 md:grid-cols-6 gap-3">
+                      {avatarOptions.map((avatar, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          onClick={() => setSelectedAvatar(avatar)}
+                          className={`w-full aspect-square rounded-full overflow-hidden border-2 transition-all hover:scale-105 ${
+                            selectedAvatar === avatar ? "border-primary ring-2 ring-primary" : "border-muted"
+                          }`}
+                        >
+                          <img src={avatar} alt={`Avatar ${index + 1}`} className="w-full h-full object-cover" />
+                        </button>
+                      ))}
+                    </div>
+                    {selectedAvatar && (
+                      <div className="flex justify-center">
+                        <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-primary">
+                          <img src={selectedAvatar} alt="Selected Avatar" className="w-full h-full object-cover" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Basic Information */}
@@ -294,7 +362,7 @@ export const UploadForm = () => {
                     <SelectItem value="minimal">Minimal - Clean & Simple</SelectItem>
                     <SelectItem value="creative">Creative - Colorful & Bold</SelectItem>
                     <SelectItem value="modern">Modern - Sleek & Professional</SelectItem>
-                    <SelectItem value="futuristic">Futuristic - Dark & Edgy</SelectItem>
+                    <SelectItem value="wholesome">Wholesome - Warm & Friendly</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

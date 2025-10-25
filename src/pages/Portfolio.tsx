@@ -221,9 +221,13 @@ const Portfolio = () => {
           <div className="flex justify-center mb-6">
             <div className="relative">
               <div className={`absolute inset-0 ${t.profileGlow} rounded-full blur-xl opacity-75 animate-pulse`}></div>
-              <div className={`relative w-40 h-40 rounded-full ${t.profileBorder} overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 shadow-2xl`}>
-                {studentData.profileImage ? (
-                  <img src={studentData.profileImage} alt={studentData.fullName} className="w-full h-full object-cover" />
+              <div className={`relative w-40 h-40 rounded-full ${t.profileBorder} overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 shadow-2xl group`}>
+                {studentData.profileImage || studentData.selectedAvatar ? (
+                  <img 
+                    src={studentData.profileImage || studentData.selectedAvatar} 
+                    alt={studentData.fullName} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-6" 
+                  />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-accent">
                     <User className="h-20 w-20 text-primary-foreground" />
