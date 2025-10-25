@@ -7,12 +7,22 @@ import { Label } from "@/components/ui/label";
 import { Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-export const RatingComment = () => {
+interface RatingCommentProps {
+  studentId: string;
+}
+
+export const RatingComment = ({ studentId }: RatingCommentProps) => {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
-  const [comments, setComments] = useState<Array<{ name: string; rating: number; comment: string; date: string }>>([]);
+  const [comments, setComments] = useState<Array<{ 
+    id: string; 
+    name: string; 
+    rating: number; 
+    comment: string; 
+    date: string 
+  }>>([]);
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -27,7 +37,9 @@ export const RatingComment = () => {
       return;
     }
 
+    const commentId = `${studentId}-${Date.now()}`;
     const newComment = {
+      id: commentId,
       name,
       rating,
       comment,
@@ -113,8 +125,8 @@ export const RatingComment = () => {
       {comments.length > 0 && (
         <div className="space-y-4">
           <h3 className="text-xl font-semibold">Comments ({comments.length})</h3>
-          {comments.map((comment, idx) => (
-            <Card key={idx}>
+          {comments.map((comment) => (
+            <Card key={comment.id}>
               <CardContent className="pt-6">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
@@ -127,17 +139,33 @@ export const RatingComment = () => {
                         <p className="text-sm text-muted-foreground">{comment.date}</p>
                       </div>
                     </div>
-                    <div className="flex gap-1">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className={`h-4 w-4 ${
-                            star <= comment.rating
-                              ? "fill-primary text-primary"
-                              : "text-muted-foreground"
-                          }`}
-                        />
-                      ))}
+                    <div className="flex items-center gap-3">
+                      <div className="flex gap-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={`h-4 w-4 ${
+                              star <= comment.rating
+                                ? "fill-primary text-primary"
+                                : "text-muted-foreground"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          setComments(comments.filter(c => c.id !== comment.id));
+                          toast({
+                            title: "Comment Deleted",
+                            description: "The comment has been removed.",
+                          });
+                        }}
+                        className="text-destructive hover:text-destructive"
+                      >
+                        Delete
+                      </Button>
                     </div>
                   </div>
                   <p className="text-muted-foreground leading-relaxed">{comment.comment}</p>

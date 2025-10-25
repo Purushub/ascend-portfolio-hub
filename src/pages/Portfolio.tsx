@@ -536,7 +536,7 @@ const Portfolio = () => {
         )}
 
         {/* Ratings & Comments */}
-        <RatingComment />
+        <RatingComment studentId={studentData.fullName || `student-${Date.now()}`} />
       </div>
     </div>
   );
