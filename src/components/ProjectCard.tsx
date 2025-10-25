@@ -1,6 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ImageIcon } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ImageIcon, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface ProjectCardProps {
   title: string;
@@ -18,34 +20,55 @@ interface ProjectCardProps {
 export const ProjectCard = ({ title, description, skills, tools, duration, link, achievement, images, imageDescriptions, onReadMore }: ProjectCardProps) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showAllImages, setShowAllImages] = useState(false);
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const truncatedDescription = description.length > 100 ? description.substring(0, 100) + "..." : description;
   
   const displayImages = images && images.length > 0 ? images : [];
   const displayDescriptions = imageDescriptions && imageDescriptions.length > 0 ? imageDescriptions : [];
   const visibleImages = showAllImages ? displayImages : displayImages.slice(0, 1);
 
+  const handleNextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % displayImages.length);
+  };
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + displayImages.length) % displayImages.length);
+  };
+
   return (
-    <Card className="group overflow-hidden hover:scale-[1.01] transition-all duration-500 relative">
-      {achievement && (
-        <div className="absolute top-0 left-0 w-full h-auto bg-gradient-to-r from-primary via-purple-500 to-pink-500 text-white px-4 py-2 text-sm font-semibold flex items-center gap-2 z-10">
-          <span>⭐</span>
-          <span>{achievement}</span>
-        </div>
-      )}
-      <div className={`w-full overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 relative ${achievement ? 'mt-10' : ''}`}>
-        {displayImages.length > 0 ? (
-          <div className={`grid ${visibleImages.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-2 p-2`}>
-            {visibleImages.map((img, idx) => (
-              <div key={idx} className="space-y-1">
-                <div className={`${visibleImages.length === 1 ? 'h-48' : 'h-32'} overflow-hidden rounded-lg`}>
-                  <img src={img} alt={`${title} - ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                </div>
-                {displayDescriptions[idx] && (
-                  <p className="text-xs text-muted-foreground italic px-1">{displayDescriptions[idx]}</p>
-                )}
-              </div>
-            ))}
+    <>
+      <Card className="group overflow-hidden hover:scale-[1.01] transition-all duration-500 relative">
+        {achievement && (
+          <div className="absolute top-0 left-0 w-full h-auto bg-gradient-to-r from-primary via-purple-500 to-pink-500 text-white px-4 py-2 text-sm font-semibold flex items-center gap-2 z-10">
+            <span>⭐</span>
+            <span>{achievement}</span>
           </div>
+        )}
+        <div className={`w-full overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 relative ${achievement ? 'mt-10' : ''}`}>
+          {displayImages.length > 0 ? (
+            <div className={`grid ${visibleImages.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-2 p-2`}>
+              {visibleImages.map((img, idx) => (
+                <div key={idx} className="space-y-1 relative">
+                  <div className={`${visibleImages.length === 1 ? 'h-48' : 'h-32'} overflow-hidden rounded-lg relative group/image`}>
+                    <img src={img} alt={`${title} - ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <button
+                      onClick={() => {
+                        setCurrentImageIndex(showAllImages ? idx : 0);
+                        setIsGalleryOpen(true);
+                      }}
+                      className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white p-1.5 rounded-lg opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 backdrop-blur-sm"
+                      aria-label="Expand gallery"
+                    >
+                      <Maximize2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                  {displayDescriptions[idx] && (
+                    <p className="text-xs text-muted-foreground italic px-1">{displayDescriptions[idx]}</p>
+                  )}
+                </div>
+              ))}
+            </div>
         ) : displayDescriptions.length > 0 ? (
           <div className="w-full h-48 flex flex-col items-center justify-center p-4 text-center backdrop-blur-sm">
             <div className="p-4 rounded-full bg-primary/10 mb-2">
@@ -109,5 +132,54 @@ export const ProjectCard = ({ title, description, skills, tools, duration, link,
         )}
       </CardContent>
     </Card>
+
+    {/* Full Gallery Dialog */}
+    <Dialog open={isGalleryOpen} onOpenChange={setIsGalleryOpen}>
+      <DialogContent className="max-w-4xl h-[90vh] p-0">
+        <DialogHeader className="px-6 py-4 border-b">
+          <DialogTitle>{title} - Gallery</DialogTitle>
+        </DialogHeader>
+        <div className="flex-1 flex items-center justify-center relative bg-black/5 dark:bg-black/50">
+          {displayImages.length > 0 && (
+            <>
+              <img 
+                src={displayImages[currentImageIndex]} 
+                alt={`${title} - ${currentImageIndex + 1}`} 
+                className="max-h-[calc(90vh-120px)] max-w-full object-contain"
+              />
+              {displayImages.length > 1 && (
+                <>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handlePrevImage}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handleNextImage}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full text-sm">
+                    {currentImageIndex + 1} / {displayImages.length}
+                  </div>
+                </>
+              )}
+            </>
+          )}
+        </div>
+        {displayDescriptions[currentImageIndex] && (
+          <div className="px-6 py-4 border-t bg-background">
+            <p className="text-sm text-muted-foreground">{displayDescriptions[currentImageIndex]}</p>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+    </>
   );
 };
