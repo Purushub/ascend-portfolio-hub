@@ -51,8 +51,37 @@ const Portfolio = () => {
   };
 
   const exportAsHTML = () => {
-    const html = document.documentElement.outerHTML;
-    const blob = new Blob([html], { type: "text/html" });
+    // Get all stylesheets content
+    const styles = Array.from(document.styleSheets)
+      .map(styleSheet => {
+        try {
+          return Array.from(styleSheet.cssRules)
+            .map(rule => rule.cssText)
+            .join('\n');
+        } catch (e) {
+          return '';
+        }
+      })
+      .join('\n');
+
+    // Get the current page content
+    const content = document.documentElement.outerHTML;
+    
+    // Create a complete HTML document with embedded styles
+    const completeHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${studentData.fullName}'s Portfolio</title>
+  <style>
+    ${styles}
+  </style>
+</head>
+${content.substring(content.indexOf('<body'))}
+</html>`;
+
+    const blob = new Blob([completeHTML], { type: "text/html" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -61,6 +90,11 @@ const Portfolio = () => {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Portfolio Exported",
+      description: "Your portfolio has been exported with full styling.",
+    });
   };
 
   const sharePortfolio = async () => {
