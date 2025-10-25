@@ -1,4 +1,4 @@
-export type ThemeType = "minimal" | "creative" | "modern" | "futuristic";
+export type ThemeType = "minimal" | "creative" | "modern" | "futuristic - new age gen z";
 
 export interface StudentProfile {
   fullName: string;

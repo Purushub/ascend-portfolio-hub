@@ -20,6 +20,7 @@ const Portfolio = () => {
     toast
   } = useToast();
   const theme = studentData?.theme || "minimal";
+  const isFuturistic = theme === "futuristic - new age gen z";
   const handleUpdate = () => {
     navigate("/upload-form", {
       state: {
@@ -122,13 +123,13 @@ const Portfolio = () => {
       mutedText: "text-slate-700 dark:text-slate-300",
       iconColor: "text-blue-500"
     },
-    futuristic: {
+    "futuristic - new age gen z": {
       wrapper: "min-h-screen bg-black",
       header: "bg-gradient-to-r from-black via-purple-950 to-black text-white py-12 px-6 border-b border-purple-500/30",
       headerTitle: "text-5xl font-black mb-2 tracking-wider uppercase text-white",
       headerSubtitle: "text-lg text-purple-300",
       button: "border-purple-500 text-purple-300 hover:bg-purple-500/20 bg-transparent",
-      section: "bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl rounded-xl p-8 space-y-6 border border-purple-500/20 shadow-2xl shadow-purple-500/10",
+      section: "bg-gradient-to-br from-gray-900/40 to-black/40 backdrop-blur-xl rounded-xl p-8 space-y-6 border border-purple-500/30 shadow-2xl shadow-purple-500/20",
       sectionTitle: "text-3xl font-bold text-white tracking-wide uppercase",
       textColor: "text-white",
       mutedText: "text-gray-300",
@@ -172,96 +173,96 @@ const Portfolio = () => {
           {/* Profile Picture with Achievement Badge */}
           <div className="flex justify-center mb-6">
             <div className="relative">
-              <div className={`absolute inset-0 ${theme === 'futuristic' ? 'bg-gradient-to-r from-purple-500 via-purple-600 to-pink-500' : 'bg-gradient-to-r from-primary via-purple-500 to-pink-500'} rounded-full blur-xl opacity-75 animate-pulse`}></div>
-              <div className={`relative w-40 h-40 rounded-full ${theme === 'futuristic' ? 'border-4 border-purple-500' : 'border-4 border-primary'} overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 shadow-2xl`}>
+              <div className={`absolute inset-0 ${isFuturistic ? 'bg-gradient-to-r from-purple-500 via-purple-600 to-pink-500' : 'bg-gradient-to-r from-primary via-purple-500 to-pink-500'} rounded-full blur-xl opacity-75 animate-pulse`}></div>
+              <div className={`relative w-40 h-40 rounded-full ${isFuturistic ? 'border-4 border-purple-500' : 'border-4 border-primary'} overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 shadow-2xl`}>
                 {studentData.profileImage ? <img src={studentData.profileImage} alt={studentData.fullName} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary to-accent">
                     <User className="h-20 w-20 text-primary-foreground" />
                   </div>}
               </div>
-              {studentData.achievementLevel && <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 ${theme === 'futuristic' ? 'bg-gradient-to-r from-purple-600 to-pink-600' : 'bg-gradient-to-r from-primary to-purple-600'} text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg border border-white/20`}>
+              {studentData.achievementLevel && <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 ${isFuturistic ? 'bg-gradient-to-r from-purple-600 to-pink-600' : 'bg-gradient-to-r from-primary to-purple-600'} text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg border border-white/20`}>
                   ⭐ {studentData.achievementLevel}
                 </div>}
             </div>
           </div>
           
           <div className="grid md:grid-cols-2 gap-6">
-            <Card className={theme === 'futuristic' ? 'bg-slate-900 border-slate-700 text-white overflow-hidden' : 'bg-white border-slate-200 overflow-hidden'}>
-              <div className={`h-1 ${theme === 'futuristic' ? 'bg-gradient-to-r from-cyan-400 to-blue-500' : 'bg-gradient-to-r from-primary to-accent'}`}></div>
+            <Card className={isFuturistic ? 'bg-slate-950/60 border-2 border-purple-500/40 text-white overflow-hidden backdrop-blur-md shadow-lg shadow-purple-500/30' : 'bg-white border-slate-200 overflow-hidden'}>
+              <div className={`h-1 ${isFuturistic ? 'bg-gradient-to-r from-cyan-400 to-blue-500' : 'bg-gradient-to-r from-primary to-accent'}`}></div>
               <CardHeader>
-                <CardTitle className={theme === 'futuristic' ? 'text-white' : 'text-foreground'}>Profile Information</CardTitle>
+                <CardTitle className={isFuturistic ? 'text-white' : 'text-foreground'}>Profile Information</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-center gap-2">
                   <User className={`h-4 w-4 ${t.iconColor}`} />
-                  <span className={`font-semibold ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>Full Name:</span>
-                  <span className={theme === 'futuristic' ? 'text-gray-200' : 'text-foreground'}>{studentData.fullName}</span>
+                  <span className={`font-semibold ${isFuturistic ? 'text-white' : 'text-foreground'}`}>Full Name:</span>
+                  <span className={isFuturistic ? 'text-gray-200' : 'text-foreground'}>{studentData.fullName}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <GraduationCap className={`h-4 w-4 ${t.iconColor}`} />
-                  <span className={`font-semibold ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>School:</span>
-                  <span className={theme === 'futuristic' ? 'text-gray-200' : 'text-foreground'}>{studentData.schoolName}</span>
+                  <span className={`font-semibold ${isFuturistic ? 'text-white' : 'text-foreground'}`}>School:</span>
+                  <span className={isFuturistic ? 'text-gray-200' : 'text-foreground'}>{studentData.schoolName}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className={`font-semibold ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>Grade:</span>
-                  <span className={theme === 'futuristic' ? 'text-gray-200' : 'text-foreground'}>{studentData.grade}</span>
+                  <span className={`font-semibold ${isFuturistic ? 'text-white' : 'text-foreground'}`}>Grade:</span>
+                  <span className={isFuturistic ? 'text-gray-200' : 'text-foreground'}>{studentData.grade}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className={`h-4 w-4 ${t.iconColor}`} />
-                  <span className={`font-semibold ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>Year:</span>
-                  <span className={theme === 'futuristic' ? 'text-gray-200' : 'text-foreground'}>{studentData.year}</span>
+                  <span className={`font-semibold ${isFuturistic ? 'text-white' : 'text-foreground'}`}>Year:</span>
+                  <span className={isFuturistic ? 'text-gray-200' : 'text-foreground'}>{studentData.year}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Hash className={`h-4 w-4 ${t.iconColor}`} />
-                  <span className={`font-semibold ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>Profile ID:</span>
-                  <span className={theme === 'futuristic' ? 'text-gray-300' : 'text-muted-foreground'}>{studentData.profileId}</span>
+                  <span className={`font-semibold ${isFuturistic ? 'text-white' : 'text-foreground'}`}>Profile ID:</span>
+                  <span className={isFuturistic ? 'text-gray-300' : 'text-muted-foreground'}>{studentData.profileId}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Calendar className={`h-4 w-4 ${t.iconColor}`} />
-                  <span className={`font-semibold ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>Last Updated:</span>
-                  <span className={theme === 'futuristic' ? 'text-gray-300' : 'text-muted-foreground'}>{studentData.lastUpdated}</span>
+                  <span className={`font-semibold ${isFuturistic ? 'text-white' : 'text-foreground'}`}>Last Updated:</span>
+                  <span className={isFuturistic ? 'text-gray-300' : 'text-muted-foreground'}>{studentData.lastUpdated}</span>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className={theme === 'futuristic' ? 'bg-slate-900 border-slate-700 text-white overflow-hidden' : 'bg-white border-slate-200 overflow-hidden'}>
-              <div className={`h-1 ${theme === 'futuristic' ? 'bg-gradient-to-r from-purple-400 to-pink-500' : 'bg-gradient-to-r from-purple-500 to-pink-500'}`}></div>
+            <Card className={isFuturistic ? 'bg-slate-950/60 border-2 border-purple-500/40 text-white overflow-hidden backdrop-blur-md shadow-lg shadow-purple-500/30' : 'bg-white border-slate-200 overflow-hidden'}>
+              <div className={`h-1 ${isFuturistic ? 'bg-gradient-to-r from-purple-400 to-pink-500' : 'bg-gradient-to-r from-purple-500 to-pink-500'}`}></div>
               <CardHeader>
-                <CardTitle className={theme === 'futuristic' ? 'text-white' : 'text-foreground'}>About Me</CardTitle>
+                <CardTitle className={isFuturistic ? 'text-white' : 'text-foreground'}>About Me</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className={`leading-relaxed ${theme === 'futuristic' ? 'text-gray-300' : 'text-muted-foreground'}`}>{studentData.aboutMe}</p>
+                <p className={`leading-relaxed ${isFuturistic ? 'text-gray-300' : 'text-muted-foreground'}`}>{studentData.aboutMe}</p>
               </CardContent>
             </Card>
           </div>
 
           {/* Archetype */}
-          <Card className={theme === 'futuristic' ? 'bg-slate-900 border-slate-700 overflow-hidden' : 'bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 overflow-hidden'}>
-            <div className={`h-1 ${theme === 'futuristic' ? 'bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500' : 'bg-gradient-to-r from-primary via-purple-500 to-accent'}`}></div>
+          <Card className={isFuturistic ? 'bg-slate-950/60 border-2 border-purple-500/40 overflow-hidden backdrop-blur-md shadow-lg shadow-purple-500/30' : 'bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 overflow-hidden'}>
+            <div className={`h-1 ${isFuturistic ? 'bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500' : 'bg-gradient-to-r from-primary via-purple-500 to-accent'}`}></div>
             <CardHeader>
-              <CardTitle className={`text-2xl ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>Your Archetype</CardTitle>
-              <h3 className={`text-3xl font-bold ${theme === 'futuristic' ? 'text-purple-400' : 'text-primary'}`}>{studentData.archetype.title}</h3>
+              <CardTitle className={`text-2xl ${isFuturistic ? 'text-white' : 'text-foreground'}`}>Your Archetype</CardTitle>
+              <h3 className={`text-3xl font-bold ${isFuturistic ? 'text-purple-400' : 'text-primary'}`}>{studentData.archetype.title}</h3>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className={`leading-relaxed ${theme === 'futuristic' ? 'text-gray-300' : 'text-muted-foreground'}`}>{studentData.archetype.description}</p>
-              <blockquote className={`border-l-4 ${theme === 'futuristic' ? 'border-purple-500 text-white' : 'border-primary text-foreground'} pl-4 italic text-lg`}>
+              <p className={`leading-relaxed ${isFuturistic ? 'text-gray-300' : 'text-muted-foreground'}`}>{studentData.archetype.description}</p>
+              <blockquote className={`border-l-4 ${isFuturistic ? 'border-purple-500 text-white' : 'border-primary text-foreground'} pl-4 italic text-lg`}>
                 "{studentData.archetype.quote}"
               </blockquote>
             </CardContent>
           </Card>
 
           {/* Social Energy Style */}
-          <Card className={theme === 'futuristic' ? 'bg-slate-900 border-slate-700 text-white overflow-hidden' : 'bg-white border-slate-200 overflow-hidden'}>
-            <div className={`h-1 ${theme === 'futuristic' ? 'bg-gradient-to-r from-pink-500 to-orange-500' : 'bg-gradient-to-r from-accent to-primary'}`}></div>
+          <Card className={isFuturistic ? 'bg-slate-950/60 border-2 border-purple-500/40 text-white overflow-hidden backdrop-blur-md shadow-lg shadow-purple-500/30' : 'bg-white border-slate-200 overflow-hidden'}>
+            <div className={`h-1 ${isFuturistic ? 'bg-gradient-to-r from-pink-500 to-orange-500' : 'bg-gradient-to-r from-accent to-primary'}`}></div>
             <CardHeader>
-              <CardTitle className={`text-xl ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>Your Social Energy Style</CardTitle>
+              <CardTitle className={`text-xl ${isFuturistic ? 'text-white' : 'text-foreground'}`}>Your Social Energy Style</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-4 mb-4">
-                <Badge variant="secondary" className={`text-lg py-2 px-4 ${theme === 'futuristic' ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : ''}`}>
+                <Badge variant="secondary" className={`text-lg py-2 px-4 ${isFuturistic ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : ''}`}>
                   {studentData.socialEnergyStyle.type}
                 </Badge>
               </div>
-              <p className={theme === 'futuristic' ? 'text-gray-300' : 'text-muted-foreground'}>{studentData.socialEnergyStyle.description}</p>
+              <p className={isFuturistic ? 'text-gray-300' : 'text-muted-foreground'}>{studentData.socialEnergyStyle.description}</p>
             </CardContent>
           </Card>
         </section>
@@ -271,26 +272,26 @@ const Portfolio = () => {
             <h2 className={t.sectionTitle}>My Story So Far</h2>
             
             <div className="grid md:grid-cols-3 gap-6">
-              {studentData.personalBio && <Card className={theme === 'futuristic' ? 'bg-slate-900 border-slate-700 overflow-hidden' : 'bg-gradient-to-br from-primary/10 to-primary/5 overflow-hidden'}>
-                  <div className={`h-1 ${theme === 'futuristic' ? 'bg-gradient-to-r from-purple-500 to-purple-400' : 'bg-gradient-to-r from-primary to-purple-500'}`}></div>
+              {studentData.personalBio && <Card className={isFuturistic ? 'bg-slate-950/60 border-2 border-purple-500/40 overflow-hidden backdrop-blur-md shadow-lg shadow-purple-500/30' : 'bg-gradient-to-br from-primary/10 to-primary/5 overflow-hidden'}>
+                  <div className={`h-1 ${isFuturistic ? 'bg-gradient-to-r from-purple-500 to-purple-400' : 'bg-gradient-to-r from-primary to-purple-500'}`}></div>
                   <CardHeader>
-                    <CardTitle className={`flex items-center gap-2 ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>
-                      <div className={`w-10 h-10 rounded-full ${theme === 'futuristic' ? 'bg-purple-500/20 text-purple-300' : 'bg-primary text-primary-foreground'} flex items-center justify-center`}>
+                    <CardTitle className={`flex items-center gap-2 ${isFuturistic ? 'text-white' : 'text-foreground'}`}>
+                      <div className={`w-10 h-10 rounded-full ${isFuturistic ? 'bg-purple-500/20 text-purple-300' : 'bg-primary text-primary-foreground'} flex items-center justify-center`}>
                         ✍️
                       </div>
                       Personal Bio
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className={`text-sm leading-relaxed ${theme === 'futuristic' ? 'text-gray-300' : 'text-muted-foreground'}`}>{studentData.personalBio}</p>
+                    <p className={`text-sm leading-relaxed ${isFuturistic ? 'text-gray-300' : 'text-muted-foreground'}`}>{studentData.personalBio}</p>
                   </CardContent>
                 </Card>}
 
-              {studentData.coreStrengths && studentData.coreStrengths.length > 0 && <Card className={theme === 'futuristic' ? 'bg-slate-900 border-slate-700 overflow-hidden' : 'bg-gradient-to-br from-accent/10 to-accent/5 overflow-hidden'}>
-                  <div className={`h-1 ${theme === 'futuristic' ? 'bg-gradient-to-r from-pink-500 to-pink-400' : 'bg-gradient-to-r from-accent to-pink-500'}`}></div>
+              {studentData.coreStrengths && studentData.coreStrengths.length > 0 && <Card className={isFuturistic ? 'bg-slate-950/60 border-2 border-purple-500/40 overflow-hidden backdrop-blur-md shadow-lg shadow-purple-500/30' : 'bg-gradient-to-br from-accent/10 to-accent/5 overflow-hidden'}>
+                  <div className={`h-1 ${isFuturistic ? 'bg-gradient-to-r from-pink-500 to-pink-400' : 'bg-gradient-to-r from-accent to-pink-500'}`}></div>
                   <CardHeader>
-                    <CardTitle className={`flex items-center gap-2 ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>
-                      <div className={`w-10 h-10 rounded-full ${theme === 'futuristic' ? 'bg-pink-500/20 text-pink-300' : 'bg-accent text-accent-foreground'} flex items-center justify-center`}>
+                    <CardTitle className={`flex items-center gap-2 ${isFuturistic ? 'text-white' : 'text-foreground'}`}>
+                      <div className={`w-10 h-10 rounded-full ${isFuturistic ? 'bg-pink-500/20 text-pink-300' : 'bg-accent text-accent-foreground'} flex items-center justify-center`}>
                         💪
                       </div>
                       Core Strengths
@@ -298,16 +299,16 @@ const Portfolio = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
-                      {studentData.coreStrengths.map((strength, idx) => <Badge key={idx} variant="outline" className={theme === 'futuristic' ? 'border-purple-500/30 text-purple-300' : ''}>{strength}</Badge>)}
+                      {studentData.coreStrengths.map((strength, idx) => <Badge key={idx} variant="outline" className={isFuturistic ? 'border-purple-500/30 text-purple-300' : ''}>{strength}</Badge>)}
                     </div>
                   </CardContent>
                 </Card>}
 
-              {studentData.passions && studentData.passions.length > 0 && <Card className={theme === 'futuristic' ? 'bg-slate-900 border-slate-700 overflow-hidden' : 'bg-gradient-to-br from-success/10 to-success/5 overflow-hidden'}>
-                  <div className={`h-1 ${theme === 'futuristic' ? 'bg-gradient-to-r from-blue-500 to-cyan-400' : 'bg-gradient-to-r from-success to-blue-500'}`}></div>
+              {studentData.passions && studentData.passions.length > 0 && <Card className={isFuturistic ? 'bg-slate-950/60 border-2 border-purple-500/40 overflow-hidden backdrop-blur-md shadow-lg shadow-purple-500/30' : 'bg-gradient-to-br from-success/10 to-success/5 overflow-hidden'}>
+                  <div className={`h-1 ${isFuturistic ? 'bg-gradient-to-r from-blue-500 to-cyan-400' : 'bg-gradient-to-r from-success to-blue-500'}`}></div>
                   <CardHeader>
-                    <CardTitle className={`flex items-center gap-2 ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>
-                      <div className={`w-10 h-10 rounded-full ${theme === 'futuristic' ? 'bg-blue-500/20 text-blue-300' : 'bg-success text-success-foreground'} flex items-center justify-center`}>
+                    <CardTitle className={`flex items-center gap-2 ${isFuturistic ? 'text-white' : 'text-foreground'}`}>
+                      <div className={`w-10 h-10 rounded-full ${isFuturistic ? 'bg-blue-500/20 text-blue-300' : 'bg-success text-success-foreground'} flex items-center justify-center`}>
                         ❤️
                       </div>
                       Passions & Interests
@@ -315,7 +316,7 @@ const Portfolio = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
-                      {studentData.passions.map((passion, idx) => <Badge key={idx} variant="secondary" className={theme === 'futuristic' ? 'bg-purple-500/20 text-purple-300' : ''}>{passion}</Badge>)}
+                      {studentData.passions.map((passion, idx) => <Badge key={idx} variant="secondary" className={isFuturistic ? 'bg-purple-500/20 text-purple-300' : ''}>{passion}</Badge>)}
                     </div>
                   </CardContent>
                 </Card>}
@@ -334,26 +335,26 @@ const Portfolio = () => {
           </div>
 
           {/* Detailed Breakdown */}
-          <Card className={theme === 'futuristic' ? 'bg-slate-900 border-slate-700 text-white overflow-hidden' : 'bg-white border-slate-200 overflow-hidden'}>
-            <div className={`h-1 ${theme === 'futuristic' ? 'bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500' : 'bg-gradient-to-r from-primary via-purple-500 to-accent'}`}></div>
+          <Card className={isFuturistic ? 'bg-slate-950/60 border-2 border-purple-500/40 text-white overflow-hidden backdrop-blur-md shadow-lg shadow-purple-500/30' : 'bg-white border-slate-200 overflow-hidden'}>
+            <div className={`h-1 ${isFuturistic ? 'bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500' : 'bg-gradient-to-r from-primary via-purple-500 to-accent'}`}></div>
             <CardHeader>
-              <CardTitle className={`text-2xl ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>Detailed Breakdown</CardTitle>
+              <CardTitle className={`text-2xl ${isFuturistic ? 'text-white' : 'text-foreground'}`}>Detailed Breakdown</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 gap-6">
                 {Object.entries(studentData.skills).map(([skill, data]) => <div key={skill} className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <h4 className={`font-semibold text-lg ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>{skill}</h4>
-                      <span className={`text-2xl font-bold ${theme === 'futuristic' ? 'text-purple-400' : 'text-primary'}`}>{data.overall}%</span>
+                      <h4 className={`font-semibold text-lg ${isFuturistic ? 'text-white' : 'text-foreground'}`}>{skill}</h4>
+                      <span className={`text-2xl font-bold ${isFuturistic ? 'text-purple-400' : 'text-primary'}`}>{data.overall}%</span>
                     </div>
                     <div className="space-y-2">
                       {Object.entries(data.subSkills).map(([subSkill, value]) => <div key={subSkill} className="space-y-1">
                           <div className="flex justify-between text-sm">
-                            <span className={theme === 'futuristic' ? 'text-gray-300' : 'text-muted-foreground'}>{subSkill}</span>
-                            <span className={`font-medium ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>{value}%</span>
+                            <span className={isFuturistic ? 'text-gray-300' : 'text-muted-foreground'}>{subSkill}</span>
+                            <span className={`font-medium ${isFuturistic ? 'text-white' : 'text-foreground'}`}>{value}%</span>
                           </div>
-                          <div className={`h-2 rounded-full overflow-hidden ${theme === 'futuristic' ? 'bg-gray-800' : 'bg-muted'}`}>
-                            <div className={`h-full transition-all duration-1000 ${theme === 'futuristic' ? 'bg-purple-500' : 'bg-primary'}`} style={{
+                          <div className={`h-2 rounded-full overflow-hidden ${isFuturistic ? 'bg-gray-800' : 'bg-muted'}`}>
+                            <div className={`h-full transition-all duration-1000 ${isFuturistic ? 'bg-purple-500' : 'bg-primary'}`} style={{
                         width: `${value}%`
                       }} />
                           </div>
@@ -385,32 +386,32 @@ const Portfolio = () => {
             <h2 className={t.sectionTitle}>Beyond the Classroom</h2>
             
             <div className="grid md:grid-cols-2 gap-6">
-              {studentData.extracurricular.map((activity, idx) => <Card key={idx} className={`overflow-hidden ${theme === 'futuristic' ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'}`}>
-                  <div className={`h-1 ${theme === 'futuristic' ? 'bg-gradient-to-r from-purple-500 to-pink-500' : 'bg-gradient-to-r from-accent to-primary'}`}></div>
-                  <CardHeader className={theme === 'futuristic' ? 'bg-gradient-to-r from-purple-900/30 to-pink-900/30' : 'bg-gradient-to-r from-accent/10 to-primary/10'}>
-                    <CardTitle className={`text-xl ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>{activity.title}</CardTitle>
-                    <p className={theme === 'futuristic' ? 'text-gray-300' : 'text-muted-foreground'}>{activity.description}</p>
+              {studentData.extracurricular.map((activity, idx) => <Card key={idx} className={`overflow-hidden ${isFuturistic ? 'bg-slate-950/60 border-2 border-purple-500/40 backdrop-blur-md shadow-lg shadow-purple-500/30' : 'bg-white border-slate-200'}`}>
+                  <div className={`h-1 ${isFuturistic ? 'bg-gradient-to-r from-purple-500 to-pink-500' : 'bg-gradient-to-r from-accent to-primary'}`}></div>
+                  <CardHeader className={isFuturistic ? 'bg-gradient-to-r from-purple-900/30 to-pink-900/30' : 'bg-gradient-to-r from-accent/10 to-primary/10'}>
+                    <CardTitle className={`text-xl ${isFuturistic ? 'text-white' : 'text-foreground'}`}>{activity.title}</CardTitle>
+                    <p className={isFuturistic ? 'text-gray-300' : 'text-muted-foreground'}>{activity.description}</p>
                   </CardHeader>
                   <CardContent className="pt-6">
                     {activity.images && activity.images.length > 0 && <div className="grid grid-cols-2 gap-4 mb-4">
                         {activity.images.map((img, imgIdx) => <div key={imgIdx} className="space-y-2">
-                            <div className={`aspect-video rounded-lg overflow-hidden ${theme === 'futuristic' ? 'bg-gray-800' : 'bg-secondary'}`}>
+                            <div className={`aspect-video rounded-lg overflow-hidden ${isFuturistic ? 'bg-gray-800' : 'bg-secondary'}`}>
                               {/* Placeholder for image */}
                             </div>
                             <div className="text-xs">
-                              <p className={`font-semibold ${theme === 'futuristic' ? 'text-white' : 'text-foreground'}`}>{img.caption}</p>
-                              <p className={theme === 'futuristic' ? 'text-gray-300' : 'text-muted-foreground'}>{img.description}</p>
+                              <p className={`font-semibold ${isFuturistic ? 'text-white' : 'text-foreground'}`}>{img.caption}</p>
+                              <p className={isFuturistic ? 'text-gray-300' : 'text-muted-foreground'}>{img.description}</p>
                             </div>
                           </div>)}
                       </div>}
-                    <div className={`space-y-2 pt-4 ${theme === 'futuristic' ? 'border-t border-slate-700' : 'border-t'}`}>
+                    <div className={`space-y-2 pt-4 ${isFuturistic ? 'border-t border-slate-700' : 'border-t'}`}>
                       <div>
-                        <span className={`font-semibold ${theme === 'futuristic' ? 'text-purple-400' : 'text-primary'}`}>Skills: </span>
-                        <span className={theme === 'futuristic' ? 'text-gray-300' : 'text-muted-foreground'}>{activity.skills}</span>
+                        <span className={`font-semibold ${isFuturistic ? 'text-purple-400' : 'text-primary'}`}>Skills: </span>
+                        <span className={isFuturistic ? 'text-gray-300' : 'text-muted-foreground'}>{activity.skills}</span>
                       </div>
                       <div>
-                        <span className={`font-semibold ${theme === 'futuristic' ? 'text-purple-400' : 'text-primary'}`}>Duration: </span>
-                        <span className={theme === 'futuristic' ? 'text-gray-300' : 'text-muted-foreground'}>{activity.duration}</span>
+                        <span className={`font-semibold ${isFuturistic ? 'text-purple-400' : 'text-primary'}`}>Duration: </span>
+                        <span className={isFuturistic ? 'text-gray-300' : 'text-muted-foreground'}>{activity.duration}</span>
                       </div>
                     </div>
                   </CardContent>
@@ -436,14 +437,14 @@ const Portfolio = () => {
         {studentData.publications && studentData.publications.length > 0 && <section className="space-y-6">
             <h2 className={t.sectionTitle}>Publications & Writing</h2>
             <div className="grid md:grid-cols-2 gap-6">
-              {studentData.publications.map((pub, idx) => <Card key={idx} className={`overflow-hidden ${theme === 'futuristic' ? 'bg-slate-900 border-slate-700 hover:border-purple-500/40' : 'bg-white border-slate-200 hover:shadow-lg'}`}>
-                  <div className={`h-1 ${theme === 'futuristic' ? 'bg-gradient-to-r from-pink-500 to-orange-500' : 'bg-gradient-to-r from-primary to-accent'}`}></div>
+              {studentData.publications.map((pub, idx) => <Card key={idx} className={`overflow-hidden ${isFuturistic ? 'bg-slate-950/60 border-2 border-purple-500/40 hover:border-purple-500/60 backdrop-blur-md shadow-lg shadow-purple-500/30' : 'bg-white border-slate-200 hover:shadow-lg'}`}>
+                  <div className={`h-1 ${isFuturistic ? 'bg-gradient-to-r from-pink-500 to-orange-500' : 'bg-gradient-to-r from-primary to-accent'}`}></div>
                   <CardHeader>
-                    <CardTitle className={theme === 'futuristic' ? 'text-white' : 'text-foreground'}>{pub.title}</CardTitle>
-                    <p className={theme === 'futuristic' ? 'text-gray-300' : 'text-muted-foreground'}>{pub.platform} • {pub.date}</p>
+                    <CardTitle className={isFuturistic ? 'text-white' : 'text-foreground'}>{pub.title}</CardTitle>
+                    <p className={isFuturistic ? 'text-gray-300' : 'text-muted-foreground'}>{pub.platform} • {pub.date}</p>
                   </CardHeader>
                   <CardContent>
-                    <a href={pub.link} target="_blank" rel="noopener noreferrer" className={theme === 'futuristic' ? 'text-purple-400 hover:text-purple-300' : 'text-primary hover:underline'}>
+                    <a href={pub.link} target="_blank" rel="noopener noreferrer" className={isFuturistic ? 'text-purple-400 hover:text-purple-300' : 'text-primary hover:underline'}>
                       Read Article →
                     </a>
                   </CardContent>
