@@ -7,6 +7,7 @@ import { SkillCircle } from "@/components/SkillCircle";
 import { ProjectCard } from "@/components/ProjectCard";
 import { CareerCard } from "@/components/CareerCard";
 import { CaseStudyCard } from "@/components/CaseStudyCard";
+import { ExtracurricularCard } from "@/components/ExtracurricularCard";
 import { Download, User, GraduationCap, Calendar, Hash, Share2, Check, Edit } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -513,22 +514,7 @@ ${content.substring(content.indexOf('<body'))}
             <h2 className={t.sectionTitle}>Beyond the Classroom</h2>
             <div className="grid md:grid-cols-2 gap-6">
               {studentData.extracurricular.map((activity, index) => (
-                <Card key={index} className={`${t.card} overflow-hidden`}>
-                  <div className={`h-1 ${t.cardAccent}`}></div>
-                  <CardHeader>
-                    <CardTitle className={t.cardTitle}>{activity.title}</CardTitle>
-                    <div className="flex gap-2 text-sm">
-                      <Badge variant="outline" className={t.badge}>{activity.duration}</Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className={t.textSecondary}>{activity.description}</p>
-                    <div>
-                      <p className={`text-sm font-semibold ${t.textPrimary} mb-2`}>Skills Developed:</p>
-                      <p className={`text-sm ${t.textSecondary}`}>{activity.skills}</p>
-                    </div>
-                  </CardContent>
-                </Card>
+                <ExtracurricularCard key={index} {...activity} />
               ))}
             </div>
           </section>
