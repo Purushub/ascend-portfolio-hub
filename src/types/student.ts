@@ -57,9 +57,10 @@ export interface StudentProfile {
     description: string;
     skills: string;
     duration: string;
-    images?: Array<{
-      caption: string;
+    highlights?: Array<{
+      title: string;
       description: string;
+      image?: string;
     }>;
   }>;
   publications?: Array<{

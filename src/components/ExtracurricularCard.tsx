@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ImageIcon, Maximize2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface ExtracurricularCardProps {
@@ -8,82 +9,76 @@ interface ExtracurricularCardProps {
   description: string;
   skills: string;
   duration: string;
-  images?: Array<{
-    caption: string;
+  highlights?: Array<{
+    title: string;
     description: string;
+    image?: string;
   }>;
 }
 
-export const ExtracurricularCard = ({ title, description, skills, duration, images }: ExtracurricularCardProps) => {
-  const [showFullDescription, setShowFullDescription] = useState(false);
+export const ExtracurricularCard = ({ title, description, skills, duration, highlights }: ExtracurricularCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const truncatedDescription = description.length > 100 ? description.substring(0, 100) + "..." : description;
-  
-  const displayImages = images && images.length > 0 ? images : [];
 
   return (
     <Card className={`group overflow-hidden transition-all duration-500 relative ${isExpanded ? 'col-span-full' : 'hover:scale-[1.01]'}`}>
-      <div className={`flex ${isExpanded ? 'flex-row gap-6 p-6' : 'flex-col'}`}>
-        <div className={`${isExpanded ? 'w-1/2' : 'w-full'} overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 relative`}>
-          {displayImages.length > 0 ? (
-            <div className="p-4 space-y-3">
-              {displayImages.map((img, idx) => (
-                <div key={idx} className="space-y-2 p-3 bg-background/50 backdrop-blur-sm rounded-lg">
-                  <div className="flex items-start gap-2">
-                    <ImageIcon className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{img.caption}</p>
-                      <p className="text-xs text-muted-foreground mt-1">{img.description}</p>
-                    </div>
+      <div className="h-1 bg-gradient-to-r from-primary via-purple-500 to-pink-500"></div>
+      
+      <CardHeader className="relative">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1">
+            <CardTitle className="text-xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text mb-2">
+              {title}
+            </CardTitle>
+            <CardDescription className="mb-3">{description}</CardDescription>
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="outline">{duration}</Badge>
+            </div>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="shrink-0"
+          >
+            {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+          </Button>
+        </div>
+      </CardHeader>
+
+      <CardContent className="space-y-4">
+        <div className="flex items-start gap-2">
+          <span className="text-sm font-semibold text-primary shrink-0">Skills Developed:</span>
+          <span className="text-sm text-muted-foreground">{skills}</span>
+        </div>
+
+        {isExpanded && highlights && highlights.length > 0 && (
+          <div className="mt-6 space-y-6 pt-6 border-t">
+            <h4 className="text-lg font-semibold text-foreground">Highlights & Achievements</h4>
+            <div className="space-y-6">
+              {highlights.map((highlight, index) => (
+                <div key={index} className="relative pl-8 pb-6 border-l-2 border-primary/30 last:border-l-0 last:pb-0">
+                  <div className="absolute -left-2.5 top-0 w-5 h-5 rounded-full bg-primary border-2 border-background flex items-center justify-center">
+                    <span className="text-xs text-primary-foreground font-bold">{index + 1}</span>
+                  </div>
+                  <div className="space-y-3">
+                    <h5 className="font-semibold text-foreground">{highlight.title}</h5>
+                    <p className="text-sm text-muted-foreground">{highlight.description}</p>
+                    {highlight.image && (
+                      <div className="rounded-lg overflow-hidden border border-border">
+                        <img 
+                          src={highlight.image} 
+                          alt={highlight.title} 
+                          className="w-full h-auto object-cover max-h-64"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
-          ) : (
-            <div className="w-full h-48 flex items-center justify-center">
-              <ImageIcon className="h-12 w-12 text-muted-foreground/30" />
-            </div>
-          )}
-        </div>
-
-        <div className={`${isExpanded ? 'w-1/2 flex flex-col justify-center' : 'w-full'}`}>
-          <CardHeader className="relative">
-            <div className="flex items-start justify-between gap-2">
-              <CardTitle className="text-xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">{title}</CardTitle>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setIsExpanded(!isExpanded)}
-                className="shrink-0"
-              >
-                <Maximize2 className="h-4 w-4" />
-              </Button>
-            </div>
-            <CardDescription>
-              {showFullDescription ? description : truncatedDescription}
-              {description.length > 100 && (
-                <button
-                  onClick={() => setShowFullDescription(!showFullDescription)}
-                  className="ml-2 text-primary hover:underline text-sm font-medium"
-                >
-                  {showFullDescription ? "Show less" : "Read more"}
-                </button>
-              )}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex items-start gap-2">
-              <span className="text-sm font-semibold text-primary shrink-0">Skills Developed:</span>
-              <span className="text-sm text-muted-foreground">{skills}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-1 h-4 bg-gradient-to-b from-primary to-purple-500 rounded-full shrink-0"></span>
-              <span className="text-sm font-semibold text-primary">Duration:</span>
-              <span className="text-sm text-muted-foreground">{duration}</span>
-            </div>
-          </CardContent>
-        </div>
-      </div>
+          </div>
+        )}
+      </CardContent>
     </Card>
   );
 };

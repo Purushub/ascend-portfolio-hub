@@ -87,7 +87,7 @@ export const UploadForm = () => {
       })));
       setExtracurricular(existingData.extracurricular.map(e => ({
         ...e,
-        images: e.images || []
+        highlights: e.highlights || []
       })));
     }
   }, [existingData]);
@@ -124,9 +124,10 @@ export const UploadForm = () => {
     description: string;
     skills: string;
     duration: string;
-    images?: Array<{
-      caption: string;
+    highlights?: Array<{
+      title: string;
       description: string;
+      image?: string;
     }>;
   }>>([]);
 
@@ -838,7 +839,7 @@ export const UploadForm = () => {
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={() => setExtracurricular([...extracurricular, { title: "", description: "", skills: "", duration: "", images: [] }])}
+                    onClick={() => setExtracurricular([...extracurricular, { title: "", description: "", skills: "", duration: "", highlights: [] }])}
                   >
                     <Plus className="h-4 w-4 mr-2" />
                     Add Activity
@@ -906,36 +907,37 @@ export const UploadForm = () => {
                         </div>
                       </div>
                       
-                      {/* Activity Images with captions */}
-                      <div className="space-y-2 border-l-2 border-accent/20 pl-4">
+                      {/* Activity Highlights with image upload */}
+                      <div className="space-y-2 border-l-2 border-primary/20 pl-4">
                         <div className="flex items-center justify-between">
-                          <Label>Images</Label>
+                          <Label>Highlights & Achievements</Label>
                           <Button
                             type="button"
                             variant="ghost"
                             size="sm"
                             onClick={() => {
                               const newActivities = [...extracurricular];
-                              newActivities[index].images.push({ caption: "", description: "" });
+                              if (!newActivities[index].highlights) newActivities[index].highlights = [];
+                              newActivities[index].highlights!.push({ title: "", description: "", image: "" });
                               setExtracurricular(newActivities);
                             }}
                           >
                             <Plus className="h-4 w-4 mr-1" />
-                            Add Image
+                            Add Highlight
                           </Button>
                         </div>
-                        {activity.images.map((img, imgIndex) => (
-                          <Card key={imgIndex} className="p-3">
+                        {activity.highlights?.map((highlight, highlightIndex) => (
+                          <Card key={highlightIndex} className="p-3">
                             <div className="space-y-2">
                               <div className="flex justify-between items-start">
-                                <Label className="text-sm">Image {imgIndex + 1}</Label>
+                                <Label className="text-sm">Highlight {highlightIndex + 1}</Label>
                                 <Button
                                   type="button"
                                   variant="ghost"
                                   size="sm"
                                   onClick={() => {
                                     const newActivities = [...extracurricular];
-                                    newActivities[index].images = newActivities[index].images.filter((_, i) => i !== imgIndex);
+                                    newActivities[index].highlights = newActivities[index].highlights!.filter((_, i) => i !== highlightIndex);
                                     setExtracurricular(newActivities);
                                   }}
                                 >
@@ -943,23 +945,44 @@ export const UploadForm = () => {
                                 </Button>
                               </div>
                               <Input
-                                placeholder="Caption"
-                                value={img.caption}
+                                placeholder="Title"
+                                value={highlight.title}
                                 onChange={(e) => {
                                   const newActivities = [...extracurricular];
-                                  newActivities[index].images[imgIndex].caption = e.target.value;
+                                  newActivities[index].highlights![highlightIndex].title = e.target.value;
                                   setExtracurricular(newActivities);
                                 }}
                               />
-                              <Input
+                              <Textarea
                                 placeholder="Description"
-                                value={img.description}
+                                value={highlight.description}
                                 onChange={(e) => {
                                   const newActivities = [...extracurricular];
-                                  newActivities[index].images[imgIndex].description = e.target.value;
+                                  newActivities[index].highlights![highlightIndex].description = e.target.value;
                                   setExtracurricular(newActivities);
                                 }}
+                                rows={2}
                               />
+                              <div className="space-y-2">
+                                <Label className="text-xs">Upload Image</Label>
+                                <Input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={async (e) => {
+                                    const imageUrl = await handleImageUpload(e);
+                                    if (imageUrl) {
+                                      const newActivities = [...extracurricular];
+                                      newActivities[index].highlights![highlightIndex].image = imageUrl;
+                                      setExtracurricular(newActivities);
+                                    }
+                                  }}
+                                />
+                                {highlight.image && (
+                                  <div className="relative w-full h-32 rounded-lg overflow-hidden border">
+                                    <img src={highlight.image} alt={highlight.title} className="w-full h-full object-cover" />
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </Card>
                         ))}

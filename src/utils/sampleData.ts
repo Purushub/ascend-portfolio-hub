@@ -161,11 +161,11 @@ export const sampleStudentData: StudentProfile = {
       description: "Organized and managed the annual school talent show, coordinating with performers, technical crew, and administration.",
       skills: "Event Planning, Leadership, Budget Management, Team Coordination",
       duration: "3 months",
-      images: [
-        { caption: "Stage Setup", description: "The meticulously arranged stage, complete with dynamic spotlights and essential musical instruments, ready to host the annual school talent show." },
-        { caption: "Backstage Preparation", description: "A glimpse backstage reveals students eagerly preparing for their performances, showcasing the anticipation and collaborative spirit of the event." },
-        { caption: "Planning & Budget", description: "A detailed event planning timeline and comprehensive budget sheet, illustrating the organized approach to managing resources and schedules for the show." },
-        { caption: "Audience Reaction", description: "The enthusiastic audience captured in a moment of heartfelt applause, celebrating the performers and the success of the school talent show." }
+      highlights: [
+        { title: "Stage Setup", description: "The meticulously arranged stage, complete with dynamic spotlights and essential musical instruments, ready to host the annual school talent show.", image: "" },
+        { title: "Backstage Preparation", description: "A glimpse backstage reveals students eagerly preparing for their performances, showcasing the anticipation and collaborative spirit of the event.", image: "" },
+        { title: "Planning & Budget", description: "A detailed event planning timeline and comprehensive budget sheet, illustrating the organized approach to managing resources and schedules for the show.", image: "" },
+        { title: "Audience Reaction", description: "The enthusiastic audience captured in a moment of heartfelt applause, celebrating the performers and the success of the school talent show.", image: "" }
       ]
     },
     {
@@ -173,9 +173,9 @@ export const sampleStudentData: StudentProfile = {
       description: "Led the school's environmental club, organizing campus cleanups, recycling initiatives, and awareness campaigns about sustainability.",
       skills: "Leadership, Environmental Advocacy, Team Building, Public Speaking",
       duration: "1 year",
-      images: [
-        { caption: "Campus Cleanup", description: "Students working together during a campus-wide cleanup initiative." },
-        { caption: "Recycling Program", description: "Setting up recycling bins and educating students about proper waste sorting." }
+      highlights: [
+        { title: "Campus Cleanup", description: "Students working together during a campus-wide cleanup initiative.", image: "" },
+        { title: "Recycling Program", description: "Setting up recycling bins and educating students about proper waste sorting.", image: "" }
       ]
     },
     {
@@ -183,9 +183,9 @@ export const sampleStudentData: StudentProfile = {
       description: "Captained the school debate team to regional championships, mentoring younger members and developing winning strategies.",
       skills: "Critical Thinking, Public Speaking, Research, Mentorship",
       duration: "2 years",
-      images: [
-        { caption: "Competition Day", description: "Team members preparing arguments before a major debate competition." },
-        { caption: "Trophy Ceremony", description: "Celebrating our regional championship victory." }
+      highlights: [
+        { title: "Competition Day", description: "Team members preparing arguments before a major debate competition.", image: "" },
+        { title: "Trophy Ceremony", description: "Celebrating our regional championship victory.", image: "" }
       ]
     },
     {
@@ -193,9 +193,9 @@ export const sampleStudentData: StudentProfile = {
       description: "Organized free art workshops for local elementary school students, teaching basic drawing and painting techniques.",
       skills: "Teaching, Community Engagement, Creativity, Planning",
       duration: "6 months",
-      images: [
-        { caption: "Workshop Session", description: "Leading young students through a painting exercise." },
-        { caption: "Student Artwork", description: "Display of beautiful artwork created by workshop participants." }
+      highlights: [
+        { title: "Workshop Session", description: "Leading young students through a painting exercise.", image: "" },
+        { title: "Student Artwork", description: "Display of beautiful artwork created by workshop participants.", image: "" }
       ]
     }
   ],
