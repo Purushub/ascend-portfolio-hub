@@ -351,11 +351,14 @@ export const UploadForm = () => {
                 <Label htmlFor="coreStrengths">Core Strengths (comma separated)</Label>
                 <Input
                   id="coreStrengths"
-                  value={formData.coreStrengths?.join(", ")}
-                  onChange={(e) => setFormData({ 
-                    ...formData, 
-                    coreStrengths: e.target.value.split(",").map(s => s.trim()).filter(s => s)
-                  })}
+                  value={Array.isArray(formData.coreStrengths) ? formData.coreStrengths.join(", ") : ""}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setFormData({ 
+                      ...formData, 
+                      coreStrengths: value ? value.split(",").map(s => s.trim()) : []
+                    });
+                  }}
                   placeholder="e.g., Leadership, Creativity, Problem Solving"
                 />
               </div>
@@ -365,11 +368,14 @@ export const UploadForm = () => {
                 <Label htmlFor="passions">Passions & Interests (comma separated)</Label>
                 <Input
                   id="passions"
-                  value={formData.passions?.join(", ")}
-                  onChange={(e) => setFormData({ 
-                    ...formData, 
-                    passions: e.target.value.split(",").map(s => s.trim()).filter(s => s)
-                  })}
+                  value={Array.isArray(formData.passions) ? formData.passions.join(", ") : ""}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setFormData({ 
+                      ...formData, 
+                      passions: value ? value.split(",").map(s => s.trim()) : []
+                    });
+                  }}
                   placeholder="e.g., Music, Technology, Sports"
                 />
               </div>
