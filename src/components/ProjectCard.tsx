@@ -22,6 +22,7 @@ export const ProjectCard = ({ title, description, skills, tools, duration, link,
   const [showAllImages, setShowAllImages] = useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
   const truncatedDescription = description.length > 100 ? description.substring(0, 100) + "..." : description;
   
   const displayImages = images && images.length > 0 ? images : [];
@@ -38,14 +39,16 @@ export const ProjectCard = ({ title, description, skills, tools, duration, link,
 
   return (
     <>
-      <Card className="group overflow-hidden hover:scale-[1.01] transition-all duration-500 relative">
+      <Card className={`group overflow-hidden transition-all duration-500 relative ${isExpanded ? 'col-span-full' : 'hover:scale-[1.01]'}`}>
         {achievement && (
           <div className="absolute top-0 left-0 w-full h-auto bg-gradient-to-r from-primary via-purple-500 to-pink-500 text-white px-4 py-2 text-sm font-semibold flex items-center gap-2 z-10">
             <span>⭐</span>
             <span>{achievement}</span>
           </div>
         )}
-        <div className={`w-full overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 relative ${achievement ? 'mt-10' : ''}`}>
+        
+        <div className={`flex ${isExpanded ? 'flex-row gap-6 p-6' : 'flex-col'} ${achievement ? 'mt-10' : ''}`}>
+        <div className={`${isExpanded ? 'w-1/2' : 'w-full'} overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 relative`}>
           {displayImages.length > 0 ? (
             <div className={`grid ${visibleImages.length > 1 ? 'grid-cols-2' : 'grid-cols-1'} gap-2 p-2`}>
               {visibleImages.map((img, idx) => (
@@ -90,8 +93,20 @@ export const ProjectCard = ({ title, description, skills, tools, duration, link,
           </button>
         )}
       </div>
+      
+      <div className={`${isExpanded ? 'w-1/2 flex flex-col justify-center' : 'w-full'}`}>
       <CardHeader className="relative">
-        <CardTitle className="text-xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">{title}</CardTitle>
+        <div className="flex items-start justify-between gap-2">
+          <CardTitle className="text-xl bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">{title}</CardTitle>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="shrink-0"
+          >
+            <Maximize2 className="h-4 w-4" />
+          </Button>
+        </div>
         <CardDescription>
           {showFullDescription ? description : truncatedDescription}
           {description.length > 100 && (
@@ -131,6 +146,8 @@ export const ProjectCard = ({ title, description, skills, tools, duration, link,
           </div>
         )}
       </CardContent>
+      </div>
+      </div>
     </Card>
 
     {/* Full Gallery Dialog */}
