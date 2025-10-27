@@ -255,6 +255,7 @@ ${content.substring(content.indexOf('<body'))}
           <div className="flex justify-center mb-6">
             <div className="relative">
               <div className={`absolute inset-0 ${t.profileGlow} rounded-full blur-xl opacity-75 animate-pulse`}></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent dark:via-white/20 rounded-full blur-lg animate-rotate-light"></div>
               <div className={`relative w-40 h-40 rounded-full ${t.profileBorder} overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 shadow-2xl group`}>
                 {studentData.profileImage || studentData.selectedAvatar ? (
                   <img 

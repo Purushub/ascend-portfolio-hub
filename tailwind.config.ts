@@ -119,6 +119,14 @@ export default {
             strokeDashoffset: "0",
           },
         },
+        "rotate-light": {
+          "0%": {
+            transform: "rotate(0deg)",
+          },
+          "100%": {
+            transform: "rotate(360deg)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -126,6 +134,7 @@ export default {
         "fade-in": "fade-in 0.5s ease-out",
         "slide-up": "slide-up 0.4s ease-out",
         "progress": "progress 1.5s ease-out",
+        "rotate-light": "rotate-light 8s linear infinite",
       },
     },
   },
