@@ -270,7 +270,7 @@ ${content.substring(content.indexOf('<body'))}
                 )}
               </div>
               {studentData.achievementLevel && (
-                <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 ${t.achievementBadge} text-white px-4 py-1 ${isWholesome ? 'rounded-full' : 'rounded-full'} text-sm font-bold shadow-lg border border-white/20`}>⭐ {studentData.achievementLevel}</div>
+                <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 ${t.achievementBadge} text-white px-4 py-1 ${isWholesome ? 'rounded-full' : 'rounded-full'} text-sm font-bold shadow-lg border border-white/20 flex items-center justify-center gap-2`}>⭐ {studentData.achievementLevel}</div>
               )}
             </div>
           </div>
