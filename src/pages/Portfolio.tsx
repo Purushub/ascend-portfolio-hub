@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { SkillCircle } from "@/components/SkillCircle";
 import { ProjectCard } from "@/components/ProjectCard";
 import { CareerCard } from "@/components/CareerCard";
+import { CaseStudyCard } from "@/components/CaseStudyCard";
 import { Download, User, GraduationCap, Calendar, Hash, Share2, Check, Edit } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -492,6 +493,19 @@ ${content.substring(content.indexOf('<body'))}
             </div>
           </section>
         )}
+
+        {/* Case Studies */}
+        {studentData.caseStudies && studentData.caseStudies.length > 0 && (
+          <section className="space-y-6">
+            <h2 className={t.sectionTitle}>Case Studies</h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              {studentData.caseStudies.map((caseStudy, index) => (
+                <CaseStudyCard key={index} {...caseStudy} />
+              ))}
+            </div>
+          </section>
+        )}
+
 
         {/* Beyond the Classroom */}
         {studentData.extracurricular && studentData.extracurricular.length > 0 && (
