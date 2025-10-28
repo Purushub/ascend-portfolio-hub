@@ -21,19 +21,21 @@ export const UploadForm = () => {
     schoolName: "",
     grade: "",
     year: "",
+    email: "",
+    linkedinUrl: "",
     aboutMe: "",
     personalBio: "",
     theme: "minimal",
     coreStrengths: [],
     passions: [],
     archetype: {
-      title: "",
-      description: "",
-      quote: ""
+      title: "The Innovator",
+      description: "A creative problem-solver who thinks outside the box",
+      quote: "Innovation distinguishes between a leader and a follower"
     },
     socialEnergyStyle: {
-      type: "",
-      description: ""
+      type: "Ambivert",
+      description: "Balanced between social interaction and solitary work"
     },
     skills: {},
     projects: [],
@@ -423,6 +425,29 @@ export const UploadForm = () => {
                     <SelectItem value="Proactive">Proactive</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              {/* Email */}
+              <div className="space-y-2">
+                <Label htmlFor="email">Email ID</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email || ""}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  placeholder="your.email@example.com"
+                />
+              </div>
+
+              {/* LinkedIn */}
+              <div className="space-y-2">
+                <Label htmlFor="linkedinUrl">LinkedIn ID</Label>
+                <Input
+                  id="linkedinUrl"
+                  value={formData.linkedinUrl || ""}
+                  onChange={(e) => setFormData({ ...formData, linkedinUrl: e.target.value })}
+                  placeholder="https://linkedin.com/in/yourprofile"
+                />
               </div>
 
               {/* Archetype */}

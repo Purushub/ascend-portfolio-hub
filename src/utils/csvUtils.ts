@@ -3,16 +3,13 @@ import { StudentProfile } from "@/types/student";
 export const generateCSVTemplate = (): string => {
   const headers = [
     "fullName",
+    "email",
+    "linkedinUrl",
     "schoolName",
     "grade",
     "year",
     "aboutMe",
     "achievementLevel",
-    "archetypeTitle",
-    "archetypeDescription",
-    "archetypeQuote",
-    "socialEnergyType",
-    "socialEnergyDescription",
     "personalBio",
     "coreStrengths",
     "passions"
@@ -21,32 +18,26 @@ export const generateCSVTemplate = (): string => {
   const sampleRows = [
     [
       "John Smith",
+      "john.smith@email.com",
+      "https://linkedin.com/in/johnsmith",
       "Lincoln High School",
       "11th",
       "2024-2025",
       "Passionate about technology and innovation",
       "Scholar",
-      "The Innovator",
-      "A creative problem-solver who thinks outside the box",
-      "Innovation distinguishes between a leader and a follower",
-      "Ambivert",
-      "Balanced between social interaction and solitary work",
       "I'm a tech enthusiast who loves building projects that make a difference",
       "Problem Solving|Creative Thinking|Leadership",
       "Coding|Robotics|AI"
     ],
     [
       "Sarah Johnson",
+      "sarah.johnson@email.com",
+      "https://linkedin.com/in/sarahjohnson",
       "Washington Academy",
       "12th",
       "2024-2025",
       "Aspiring environmental scientist and activist",
       "Valedictorian",
-      "The Catalyst",
-      "Drives change and inspires others to take action",
-      "Be the change you wish to see in the world",
-      "Extrovert",
-      "Energized by collaboration and teamwork",
       "I'm passionate about sustainability and creating a better future for our planet",
       "Research|Public Speaking|Data Analysis",
       "Environmental Science|Climate Action|Community Service"
@@ -102,6 +93,15 @@ export const parseCSV = (csvText: string): Partial<StudentProfile>[] => {
     const student: any = {
       profileId: `profile-${Date.now()}-${i}`,
       lastUpdated: new Date().toISOString(),
+      archetype: {
+        title: "The Innovator",
+        description: "A creative problem-solver who thinks outside the box",
+        quote: "Innovation distinguishes between a leader and a follower"
+      },
+      socialEnergyStyle: {
+        type: "Ambivert",
+        description: "Balanced between social interaction and solitary work"
+      },
       skills: {},
       projects: [],
       caseStudies: [],
@@ -116,21 +116,6 @@ export const parseCSV = (csvText: string): Partial<StudentProfile>[] => {
         case "coreStrengths":
         case "passions":
           student[header] = value.split("|").filter(v => v.trim());
-          break;
-        case "archetypeTitle":
-          student.archetype = { ...student.archetype, title: value };
-          break;
-        case "archetypeDescription":
-          student.archetype = { ...student.archetype, description: value };
-          break;
-        case "archetypeQuote":
-          student.archetype = { ...student.archetype, quote: value };
-          break;
-        case "socialEnergyType":
-          student.socialEnergyStyle = { ...student.socialEnergyStyle, type: value };
-          break;
-        case "socialEnergyDescription":
-          student.socialEnergyStyle = { ...student.socialEnergyStyle, description: value };
           break;
         default:
           student[header] = value;

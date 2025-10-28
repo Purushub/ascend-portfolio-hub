@@ -5,6 +5,8 @@ export interface StudentProfile {
   schoolName: string;
   grade: string;
   year: string;
+  email?: string;
+  linkedinUrl?: string;
   profileId: string;
   lastUpdated: string;
   aboutMe: string;
