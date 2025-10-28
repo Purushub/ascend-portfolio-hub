@@ -8,7 +8,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { CareerCard } from "@/components/CareerCard";
 import { CaseStudyCard } from "@/components/CaseStudyCard";
 import { ExtracurricularCard } from "@/components/ExtracurricularCard";
-import { Download, User, GraduationCap, Calendar, Hash, Share2, Check, Edit } from "lucide-react";
+import { Download, User, GraduationCap, Calendar, Hash, Share2, Check, Edit, Mail, Linkedin } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { RatingComment } from "@/components/RatingComment";
@@ -303,6 +303,22 @@ ${content.substring(content.indexOf('<body'))}
                   <span className={`font-semibold ${t.textPrimary}`}>Year:</span>
                   <span className={t.textPrimary}>{studentData.year}</span>
                 </div>
+                {studentData.email && (
+                  <div className="flex items-center gap-2">
+                    <Mail className={`h-4 w-4 ${t.iconColor}`} />
+                    <span className={`font-semibold ${t.textPrimary}`}>Email:</span>
+                    <a href={`mailto:${studentData.email}`} className={`${t.textPrimary} hover:underline`}>{studentData.email}</a>
+                  </div>
+                )}
+                {studentData.linkedinUrl && (
+                  <div className="flex items-center gap-2">
+                    <Linkedin className={`h-4 w-4 ${t.iconColor}`} />
+                    <span className={`font-semibold ${t.textPrimary}`}>LinkedIn:</span>
+                    <a href={studentData.linkedinUrl} target="_blank" rel="noopener noreferrer" className={`${t.textPrimary} hover:underline truncate`}>
+                      {studentData.linkedinUrl.replace('https://', '').replace('http://', '')}
+                    </a>
+                  </div>
+                )}
                 <div className="flex items-center gap-2">
                   <Hash className={`h-4 w-4 ${t.iconColor}`} />
                   <span className={`font-semibold ${t.textPrimary}`}>Profile ID:</span>
