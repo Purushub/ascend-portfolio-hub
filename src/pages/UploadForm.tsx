@@ -427,6 +427,24 @@ export const UploadForm = () => {
                 </Select>
               </div>
 
+              {/* SAT Report Type */}
+              <div className="space-y-2">
+                <Label htmlFor="satReportType">Skills Profile SAT Report Type</Label>
+                <Select
+                  value={formData.satReportType}
+                  onValueChange={(value: any) => setFormData({ ...formData, satReportType: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select SAT report type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Standard SAT Report">Standard SAT Report</SelectItem>
+                    <SelectItem value="Detailed SAT Analysis">Detailed SAT Analysis</SelectItem>
+                    <SelectItem value="Comprehensive SAT Profile">Comprehensive SAT Profile</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
               {/* Email */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email ID</Label>

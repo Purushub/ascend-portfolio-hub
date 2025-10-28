@@ -8,7 +8,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { CareerCard } from "@/components/CareerCard";
 import { CaseStudyCard } from "@/components/CaseStudyCard";
 import { ExtracurricularCard } from "@/components/ExtracurricularCard";
-import { Download, User, GraduationCap, Calendar, Hash, Share2, Check, Edit, Mail, Linkedin } from "lucide-react";
+import { Download, User, GraduationCap, Calendar, Hash, Share2, Check, Edit, Mail, Linkedin, FileText } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { RatingComment } from "@/components/RatingComment";
@@ -97,6 +97,38 @@ ${content.substring(content.indexOf('<body'))}
       title: "Portfolio Exported",
       description: "Your portfolio has been exported with full styling.",
     });
+  };
+
+  const exportAsPDF = async () => {
+    const html2pdf = (await import('html2pdf.js')).default;
+    
+    const element = document.body;
+    const opt = {
+      margin: 0.5,
+      filename: `${studentData.fullName.replace(/\s+/g, "_")}_Portfolio.pdf`,
+      image: { type: 'jpeg' as const, quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' as const }
+    };
+
+    toast({
+      title: "Generating PDF",
+      description: "Please wait while we generate your portfolio PDF...",
+    });
+
+    try {
+      await html2pdf().set(opt).from(element).save();
+      toast({
+        title: "PDF Exported",
+        description: "Your portfolio has been exported as PDF.",
+      });
+    } catch (error) {
+      toast({
+        title: "Export Failed",
+        description: "There was an error exporting your portfolio as PDF.",
+        variant: "destructive",
+      });
+    }
   };
 
   const sharePortfolio = async () => {
@@ -239,7 +271,16 @@ ${content.substring(content.indexOf('<body'))}
               className={t.button}
             >
               <Download className="mr-2 h-5 w-5" />
-              Export
+              Export HTML
+            </Button>
+            <Button
+              onClick={exportAsPDF}
+              variant={theme === "minimal" ? "secondary" : "outline"}
+              size="lg"
+              className={t.button}
+            >
+              <FileText className="mr-2 h-5 w-5" />
+              Export PDF
             </Button>
           </div>
         </div>
@@ -450,7 +491,19 @@ ${content.substring(content.indexOf('<body'))}
         {/* Skills Profile */}
         {studentData.skills && Object.keys(studentData.skills).length > 0 && (
           <section className={t.section}>
-            <h2 className={t.sectionTitle}>Skills Profile</h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className={t.sectionTitle}>Skills Profile</h2>
+              {studentData.satReportType && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className={`${t.button} gap-2`}
+                >
+                  <FileText className="h-4 w-4" />
+                  {studentData.satReportType}
+                </Button>
+              )}
+            </div>
 
             {/* Skill Circles */}
             <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">

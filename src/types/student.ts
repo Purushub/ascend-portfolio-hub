@@ -1,4 +1,5 @@
 export type ThemeType = "minimal" | "creative" | "modern" | "wholesome";
+export type SATReportType = "Standard SAT Report" | "Detailed SAT Analysis" | "Comprehensive SAT Profile";
 
 export interface StudentProfile {
   fullName: string;
@@ -13,6 +14,7 @@ export interface StudentProfile {
   profileImage?: string;
   selectedAvatar?: string;
   theme?: ThemeType;
+  satReportType?: SATReportType;
   achievementLevel?: "Scholar" | "Valedictorian" | "Brilliant" | "Diligent" | "Exemplary" | "Focused" | "Motivated" | "Disciplined" | "Curious" | "Proactive";
   archetype: {
     title: string;
