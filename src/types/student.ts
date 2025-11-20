@@ -50,6 +50,7 @@ export interface StudentProfile {
     description: string;
     skills: string;
     duration: string;
+    image?: string;
     steps: Array<{
       title: string;
       description: string;
