@@ -67,6 +67,7 @@ export const UploadForm = () => {
       })));
       setCaseStudies(existingData.caseStudies.map(c => ({
         ...c,
+        image: c.image || "",
         steps: c.steps.map(s => ({
           ...s,
           image: s.image || ""
@@ -76,6 +77,7 @@ export const UploadForm = () => {
         ...e,
         highlights: e.highlights || []
       })));
+      setPublications(existingData.publications || []);
     }
   }, [existingData]);
 
@@ -98,11 +100,21 @@ export const UploadForm = () => {
     description: string;
     skills: string;
     duration: string;
+    image?: string;
     steps: Array<{
       title: string;
       description: string;
       image?: string;
     }>;
+  }>>([]);
+
+  // Publications state
+  const [publications, setPublications] = useState<Array<{
+    title: string;
+    date: string;
+    platform: string;
+    link: string;
+    thumbnail?: string;
   }>>([]);
 
   // Extracurricular state
@@ -158,7 +170,8 @@ export const UploadForm = () => {
       selectedAvatar: selectedAvatar || undefined,
       projects,
       caseStudies,
-      extracurricular
+      extracurricular,
+      publications
     } as StudentProfile;
     navigate("/portfolio", {
       state: {
@@ -612,6 +625,28 @@ export const UploadForm = () => {
                       }} />
                         </div>
                       </div>
+
+                      {/* Case Study Main Image */}
+                      <div className="space-y-2">
+                        <Label>Case Study Image</Label>
+                        <Input 
+                          type="file" 
+                          accept="image/*" 
+                          onChange={async (e) => {
+                            const image = await handleImageUpload(e);
+                            const newCaseStudies = [...caseStudies];
+                            newCaseStudies[index].image = image;
+                            setCaseStudies(newCaseStudies);
+                          }} 
+                        />
+                        {caseStudy.image && (
+                          <img 
+                            src={caseStudy.image} 
+                            alt={caseStudy.title} 
+                            className="w-full h-32 object-cover rounded" 
+                          />
+                        )}
+                      </div>
                       
                       {/* Case Study Steps */}
                       <div className="space-y-2 border-l-2 border-primary/20 pl-4">
@@ -786,6 +821,115 @@ export const UploadForm = () => {
                       </div>
                     </div>
                   </Card>)}
+              </div>
+
+              {/* Publications Section */}
+              <div className="space-y-4 border-t pt-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">Publications</h3>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => setPublications([...publications, {
+                      title: "",
+                      date: "",
+                      platform: "",
+                      link: "",
+                      thumbnail: ""
+                    }])}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Publication
+                  </Button>
+                </div>
+                {publications.map((publication, index) => (
+                  <Card key={index} className="p-4">
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-start">
+                        <h4 className="font-medium">Publication {index + 1}</h4>
+                        <Button 
+                          type="button" 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => setPublications(publications.filter((_, i) => i !== index))}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Title</Label>
+                        <Input 
+                          value={publication.title} 
+                          onChange={(e) => {
+                            const newPublications = [...publications];
+                            newPublications[index].title = e.target.value;
+                            setPublications(newPublications);
+                          }} 
+                          placeholder="Publication title" 
+                        />
+                      </div>
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>Date</Label>
+                          <Input 
+                            value={publication.date} 
+                            onChange={(e) => {
+                              const newPublications = [...publications];
+                              newPublications[index].date = e.target.value;
+                              setPublications(newPublications);
+                            }} 
+                            placeholder="e.g., January 2024" 
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Platform</Label>
+                          <Input 
+                            value={publication.platform} 
+                            onChange={(e) => {
+                              const newPublications = [...publications];
+                              newPublications[index].platform = e.target.value;
+                              setPublications(newPublications);
+                            }} 
+                            placeholder="e.g., Medium, LinkedIn" 
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Link</Label>
+                        <Input 
+                          value={publication.link} 
+                          onChange={(e) => {
+                            const newPublications = [...publications];
+                            newPublications[index].link = e.target.value;
+                            setPublications(newPublications);
+                          }} 
+                          placeholder="https://..." 
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Thumbnail Image</Label>
+                        <Input 
+                          type="file" 
+                          accept="image/*" 
+                          onChange={async (e) => {
+                            const image = await handleImageUpload(e);
+                            const newPublications = [...publications];
+                            newPublications[index].thumbnail = image;
+                            setPublications(newPublications);
+                          }} 
+                        />
+                        {publication.thumbnail && (
+                          <img 
+                            src={publication.thumbnail} 
+                            alt={publication.title} 
+                            className="w-32 h-32 object-cover rounded" 
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                ))}
               </div>
 
               <div className="flex gap-4 pt-6">

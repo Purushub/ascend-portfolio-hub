@@ -9,6 +9,7 @@ interface CaseStudyCardProps {
   description: string;
   skills: string;
   duration: string;
+  image?: string;
   steps: Array<{
     title: string;
     description: string;
@@ -16,12 +17,22 @@ interface CaseStudyCardProps {
   }>;
 }
 
-export const CaseStudyCard = ({ title, description, skills, duration, steps }: CaseStudyCardProps) => {
+export const CaseStudyCard = ({ title, description, skills, duration, image, steps }: CaseStudyCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <Card className={`group overflow-hidden transition-all duration-500 relative ${isExpanded ? 'col-span-full' : 'hover:scale-[1.01]'}`}>
       <div className="h-1 bg-gradient-to-r from-primary via-purple-500 to-pink-500"></div>
+      
+      {image && (
+        <div className="w-full h-48 overflow-hidden">
+          <img 
+            src={image} 
+            alt={title} 
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
       
       <CardHeader className="relative">
         <div className="flex items-start justify-between gap-2">
