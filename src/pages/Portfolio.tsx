@@ -508,7 +508,7 @@ ${content.substring(content.indexOf('<body'))}
             {/* Skill Circles */}
             <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
               {Object.entries(studentData.skills).map(([skill, data]) => (
-                <SkillCircle key={skill} skill={skill} percentage={data.overall * 10} color={skillColors[skill] || "#6366F1"} />
+                <SkillCircle key={skill} skill={skill} percentage={data.overall} color={skillColors[skill] || "#6366F1"} />
               ))}
             </div>
 
