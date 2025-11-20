@@ -63,19 +63,25 @@ export const UploadForm = () => {
         link: p.link || "",
         achievement: p.achievement || "",
         images: p.images || [],
-        imageDescriptions: p.imageDescriptions || []
+        imageDescriptions: p.imageDescriptions || [],
+        videoLinks: p.videoLinks || []
       })));
       setCaseStudies(existingData.caseStudies.map(c => ({
         ...c,
         image: c.image || "",
         steps: c.steps.map(s => ({
           ...s,
-          image: s.image || ""
+          image: s.image || "",
+          videoLink: s.videoLink || ""
         }))
       })));
       setExtracurricular(existingData.extracurricular.map(e => ({
         ...e,
-        highlights: e.highlights || []
+        highlights: (e.highlights || []).map(h => ({
+          ...h,
+          image: h.image || "",
+          videoLink: h.videoLink || ""
+        }))
       })));
       setPublications(existingData.publications || []);
     }
@@ -92,6 +98,7 @@ export const UploadForm = () => {
     achievement?: string;
     images?: string[];
     imageDescriptions?: string[];
+    videoLinks?: string[];
   }>>([]);
 
   // Case studies state
@@ -105,6 +112,7 @@ export const UploadForm = () => {
       title: string;
       description: string;
       image?: string;
+      videoLink?: string;
     }>;
   }>>([]);
 
@@ -127,6 +135,7 @@ export const UploadForm = () => {
       title: string;
       description: string;
       image?: string;
+      videoLink?: string;
     }>;
   }>>([]);
   const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -558,11 +567,19 @@ export const UploadForm = () => {
                       </div>
                       <div className="space-y-2">
                         <Label>Image Descriptions (comma separated)</Label>
-                        <Input value={project.imageDescriptions.join(", ")} onChange={e => {
+                        <Input value={project.imageDescriptions?.join(", ") || ""} onChange={e => {
                       const newProjects = [...projects];
                       newProjects[index].imageDescriptions = e.target.value.split(",").map(s => s.trim()).filter(s => s);
                       setProjects(newProjects);
                     }} placeholder="Description for each image" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>YouTube Video Links (comma separated)</Label>
+                        <Input value={project.videoLinks?.join(", ") || ""} onChange={e => {
+                      const newProjects = [...projects];
+                      newProjects[index].videoLinks = e.target.value.split(",").map(s => s.trim()).filter(s => s);
+                      setProjects(newProjects);
+                    }} placeholder="e.g., https://www.youtube.com/watch?v=VIDEO_ID" />
                       </div>
                     </div>
                   </Card>)}
@@ -657,7 +674,8 @@ export const UploadForm = () => {
                         newCaseStudies[index].steps.push({
                           title: "",
                           description: "",
-                          image: ""
+                          image: "",
+                          videoLink: ""
                         });
                         setCaseStudies(newCaseStudies);
                       }}>
@@ -696,6 +714,18 @@ export const UploadForm = () => {
                             setCaseStudies(newCaseStudies);
                           }} />
                                 {step.image && <img src={step.image} alt={`Step ${stepIndex + 1}`} className="w-20 h-20 object-cover rounded" />}
+                              </div>
+                              <div className="space-y-2">
+                                <Label className="text-sm">YouTube Video Link</Label>
+                                <Input 
+                                  placeholder="https://www.youtube.com/watch?v=VIDEO_ID" 
+                                  value={step.videoLink || ""} 
+                                  onChange={e => {
+                                    const newCaseStudies = [...caseStudies];
+                                    newCaseStudies[index].steps[stepIndex].videoLink = e.target.value;
+                                    setCaseStudies(newCaseStudies);
+                                  }} 
+                                />
                               </div>
                             </div>
                           </Card>)}
@@ -772,7 +802,8 @@ export const UploadForm = () => {
                         newActivities[index].highlights!.push({
                           title: "",
                           description: "",
-                          image: ""
+                          image: "",
+                          videoLink: ""
                         });
                         setExtracurricular(newActivities);
                       }}>
@@ -815,6 +846,18 @@ export const UploadForm = () => {
                                 {highlight.image && <div className="relative w-full h-32 rounded-lg overflow-hidden border">
                                     <img src={highlight.image} alt={highlight.title} className="w-full h-full object-cover" />
                                   </div>}
+                              </div>
+                              <div className="space-y-2">
+                                <Label className="text-xs">YouTube Video Link</Label>
+                                <Input 
+                                  placeholder="https://www.youtube.com/watch?v=VIDEO_ID" 
+                                  value={highlight.videoLink || ""} 
+                                  onChange={e => {
+                                    const newActivities = [...extracurricular];
+                                    newActivities[index].highlights![highlightIndex].videoLink = e.target.value;
+                                    setExtracurricular(newActivities);
+                                  }} 
+                                />
                               </div>
                             </div>
                           </Card>)}

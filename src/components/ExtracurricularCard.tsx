@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getYoutubeEmbedUrl } from "@/utils/youtubeUtils";
 
 interface ExtracurricularCardProps {
   title: string;
@@ -13,6 +14,7 @@ interface ExtracurricularCardProps {
     title: string;
     description: string;
     image?: string;
+    videoLink?: string;
   }>;
 }
 
@@ -69,6 +71,17 @@ export const ExtracurricularCard = ({ title, description, skills, duration, high
                           src={highlight.image} 
                           alt={highlight.title} 
                           className="w-full h-auto object-cover max-h-64"
+                        />
+                      </div>
+                    )}
+                    {highlight.videoLink && getYoutubeEmbedUrl(highlight.videoLink) && (
+                      <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border">
+                        <iframe
+                          src={getYoutubeEmbedUrl(highlight.videoLink)!}
+                          title={highlight.title}
+                          className="w-full h-full"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
                         />
                       </div>
                     )}

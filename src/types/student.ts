@@ -44,6 +44,7 @@ export interface StudentProfile {
     achievement?: string;
     images?: string[];
     imageDescriptions?: string[];
+    videoLinks?: string[];
   }>;
   caseStudies: Array<{
     title: string;
@@ -55,6 +56,7 @@ export interface StudentProfile {
       title: string;
       description: string;
       image?: string;
+      videoLink?: string;
     }>;
   }>;
   extracurricular: Array<{
@@ -66,6 +68,7 @@ export interface StudentProfile {
       title: string;
       description: string;
       image?: string;
+      videoLink?: string;
     }>;
   }>;
   publications?: Array<{
