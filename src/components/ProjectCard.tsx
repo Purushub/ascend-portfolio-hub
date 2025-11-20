@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { ImageIcon, Maximize2, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { getYoutubeEmbedUrl } from "@/utils/youtubeUtils";
 
 interface ProjectCardProps {
   title: string;
@@ -14,10 +15,11 @@ interface ProjectCardProps {
   achievement?: string;
   images?: string[];
   imageDescriptions?: string[];
+  videoLinks?: string[];
   onReadMore?: () => void;
 }
 
-export const ProjectCard = ({ title, description, skills, tools, duration, link, achievement, images, imageDescriptions, onReadMore }: ProjectCardProps) => {
+export const ProjectCard = ({ title, description, skills, tools, duration, link, achievement, images, imageDescriptions, videoLinks, onReadMore }: ProjectCardProps) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showAllImages, setShowAllImages] = useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
@@ -27,6 +29,7 @@ export const ProjectCard = ({ title, description, skills, tools, duration, link,
   
   const displayImages = images && images.length > 0 ? images : [];
   const displayDescriptions = imageDescriptions && imageDescriptions.length > 0 ? imageDescriptions : [];
+  const displayVideos = videoLinks && videoLinks.length > 0 ? videoLinks : [];
   const visibleImages = showAllImages ? displayImages : displayImages.slice(0, 1);
 
   const handleNextImage = () => {
@@ -143,6 +146,25 @@ export const ProjectCard = ({ title, description, skills, tools, duration, link,
             >
               Go to Project →
             </a>
+          </div>
+        )}
+        {displayVideos.length > 0 && (
+          <div className="pt-4 space-y-3">
+            <span className="text-sm font-semibold text-primary">Project Videos:</span>
+            {displayVideos.map((videoUrl, idx) => {
+              const embedUrl = getYoutubeEmbedUrl(videoUrl);
+              return embedUrl ? (
+                <div key={idx} className="relative w-full aspect-video rounded-lg overflow-hidden border border-border">
+                  <iframe
+                    src={embedUrl}
+                    title={`${title} - Video ${idx + 1}`}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              ) : null;
+            })}
           </div>
         )}
       </CardContent>

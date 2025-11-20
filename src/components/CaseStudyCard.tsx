@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { ChevronDown, ChevronUp, Maximize2, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getYoutubeEmbedUrl } from "@/utils/youtubeUtils";
 
 interface CaseStudyCardProps {
   title: string;
@@ -14,6 +15,7 @@ interface CaseStudyCardProps {
     title: string;
     description: string;
     image?: string;
+    videoLink?: string;
   }>;
 }
 
@@ -101,6 +103,17 @@ export const CaseStudyCard = ({ title, description, skills, duration, image, ste
                         src={step.image} 
                         alt={step.title} 
                         className="w-full h-auto object-cover max-h-64"
+                      />
+                    </div>
+                  )}
+                  {step.videoLink && getYoutubeEmbedUrl(step.videoLink) && (
+                    <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border">
+                      <iframe
+                        src={getYoutubeEmbedUrl(step.videoLink)!}
+                        title={step.title}
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
                       />
                     </div>
                   )}
